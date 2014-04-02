@@ -1,0 +1,8 @@
+ephemit_site:
+    resource: "@EphemitSiteBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ephemit_utilisateur:
+    resource: "@EphemitUtilisateurBundle/Resources/config/routing.yml"
+    prefix:   /
+

@@ -1,0 +1,7 @@
+parameters:
+#    ephemit_utilisateur.example.class: Ephemit\UtilisateurBundle\Example
+
+services:
+#    ephemit_utilisateur.example:
+#        class: %ephemit_utilisateur.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
