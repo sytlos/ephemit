@@ -1594,117 +1594,6 @@
         ]
     },
     {
-        "name": "sonata-project/jquery-bundle",
-        "version": "1.8.3",
-        "version_normalized": "1.8.3.0",
-        "target-dir": "Sonata/jQueryBundle",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/sonata-project/SonatajQueryBundle.git",
-            "reference": "1b6dde1becb93b801e64b20e96bc76a110ead712"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/sonata-project/SonatajQueryBundle/zipball/1b6dde1becb93b801e64b20e96bc76a110ead712",
-            "reference": "1b6dde1becb93b801e64b20e96bc76a110ead712",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.2",
-            "symfony/framework-bundle": "2.*"
-        },
-        "time": "2013-03-01 17:24:02",
-        "type": "symfony-bundle",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Sonata\\jQueryBundle": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Thomas Rabaix",
-                "email": "thomas.rabaix@sonata-project.org",
-                "homepage": "http://sonata-project.org"
-            },
-            {
-                "name": "Sonata Community",
-                "homepage": "https://github.com/sonata-project/SonatajQueryBundle/contributors"
-            }
-        ],
-        "description": "Symfony SonatajQueryBundle",
-        "homepage": "http://sonata-project.org/bundles/jquery",
-        "keywords": [
-            "jquery",
-            "sonata"
-        ]
-    },
-    {
-        "name": "sonata-project/core-bundle",
-        "version": "2.2.5",
-        "version_normalized": "2.2.5.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/sonata-project/SonataCoreBundle.git",
-            "reference": "863809982c98b8444aeab1ff442c117d74f1a7c7"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/863809982c98b8444aeab1ff442c117d74f1a7c7",
-            "reference": "863809982c98b8444aeab1ff442c117d74f1a7c7",
-            "shasum": ""
-        },
-        "require": {
-            "symfony/config": "~2.0",
-            "symfony/form": "~2.2",
-            "symfony/http-foundation": "~2.2",
-            "symfony/translation": "~2.2",
-            "twig/twig": "~1.12"
-        },
-        "require-dev": {
-            "doctrine/orm": "~2.4",
-            "doctrine/phpcr-odm": "~1.0",
-            "sonata-project/exporter": "~1.3"
-        },
-        "time": "2014-02-14 14:24:51",
-        "type": "symfony-bundle",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.2.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Sonata\\CoreBundle\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Thomas Rabaix",
-                "email": "thomas.rabaix@sonata-project.org",
-                "homepage": "http://sonata-project.org"
-            },
-            {
-                "name": "Sonata Community",
-                "homepage": "https://github.com/sonata-project/SonataCoreBundle/contributors"
-            }
-        ],
-        "description": "Symfony SonataCoreBundle",
-        "homepage": "http://sonata-project.org/bundles/core",
-        "keywords": [
-            "sonata"
-        ]
-    },
-    {
         "name": "sonata-project/exporter",
         "version": "1.3.3",
         "version_normalized": "1.3.3.0",
@@ -1760,123 +1649,6 @@
             "data",
             "export",
             "xls"
-        ]
-    },
-    {
-        "name": "knplabs/knp-menu",
-        "version": "v1.1.2",
-        "version_normalized": "1.1.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/KnpLabs/KnpMenu.git",
-            "reference": "f8e867268f63f561c1adadd6cbb5d8524f921873"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/f8e867268f63f561c1adadd6cbb5d8524f921873",
-            "reference": "f8e867268f63f561c1adadd6cbb5d8524f921873",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "pimple/pimple": "*",
-            "silex/silex": "1.0.*",
-            "twig/twig": ">=1.2,<2.0-dev"
-        },
-        "suggest": {
-            "pimple/pimple": "for the built-in implementations of the menu provider and renderer provider",
-            "silex/silex": "for the integration with your silex application",
-            "twig/twig": "for the TwigRenderer and the integration with your templates"
-        },
-        "time": "2012-06-10 16:20:40",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.1.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Knp\\Menu\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Christophe Coevoet",
-                "email": "stof@notk.org"
-            },
-            {
-                "name": "KnpLabs",
-                "homepage": "http://knplabs.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://github.com/KnpLabs/KnpMenu/contributors"
-            }
-        ],
-        "description": "An object oriented menu library",
-        "homepage": "http://knplabs.com",
-        "keywords": [
-            "menu",
-            "tree"
-        ]
-    },
-    {
-        "name": "knplabs/knp-menu-bundle",
-        "version": "v1.1.2",
-        "version_normalized": "1.1.2.0",
-        "target-dir": "Knp/Bundle/MenuBundle",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/KnpLabs/KnpMenuBundle.git",
-            "reference": "2fecac02614e5a006f674dd5dd754eeaeca060b9"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/2fecac02614e5a006f674dd5dd754eeaeca060b9",
-            "reference": "2fecac02614e5a006f674dd5dd754eeaeca060b9",
-            "shasum": ""
-        },
-        "require": {
-            "knplabs/knp-menu": "~1.1",
-            "symfony/framework-bundle": "~2.0"
-        },
-        "time": "2013-05-25 10:20:03",
-        "type": "symfony-bundle",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Knp\\Bundle\\MenuBundle": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Christophe Coevoet",
-                "email": "stof@notk.org"
-            },
-            {
-                "name": "Knplabs",
-                "homepage": "http://knplabs.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://github.com/KnpLabs/KnpMenuBundle/contributors"
-            }
-        ],
-        "description": "This bundle provides an integration of the KnpMenu library",
-        "keywords": [
-            "menu"
         ]
     },
     {
@@ -2004,158 +1776,6 @@
         "homepage": "http://sonata-project.org/bundles/block",
         "keywords": [
             "block",
-            "sonata"
-        ]
-    },
-    {
-        "name": "sonata-project/admin-bundle",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-            "reference": "23c42a8bd7844261a0bea9d74de4d1d9312d4904"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/23c42a8bd7844261a0bea9d74de4d1d9312d4904",
-            "reference": "23c42a8bd7844261a0bea9d74de4d1d9312d4904",
-            "shasum": ""
-        },
-        "require": {
-            "doctrine/common": "~2.2",
-            "knplabs/knp-menu": ">=1.1.0,<3.0.0",
-            "knplabs/knp-menu-bundle": ">=1.1.0,<3.0.0",
-            "sensio/generator-bundle": "~2.3",
-            "sonata-project/block-bundle": "~2.2,>=2.2.7",
-            "sonata-project/core-bundle": "~2.2",
-            "sonata-project/exporter": "~1.0",
-            "sonata-project/jquery-bundle": "1.8.*",
-            "symfony/class-loader": "~2.3",
-            "symfony/config": "~2.3",
-            "symfony/console": "~2.3",
-            "symfony/form": "~2.3",
-            "symfony/http-foundation": "~2.3",
-            "symfony/routing": "~2.3",
-            "symfony/security-bundle": "~2.3",
-            "symfony/twig-bridge": "~2.3",
-            "symfony/validator": "~2.3",
-            "twig/extensions": "~1.0",
-            "twig/twig": "~1.12"
-        },
-        "require-dev": {
-            "jms/translation-bundle": "~1.1",
-            "sonata-project/intl-bundle": "~2.1",
-            "symfony/yaml": "~2.3"
-        },
-        "suggest": {
-            "jms/translation-bundle": "Extract message keys from Admins",
-            "sonata-project/intl-bundle": "Add localized date and number into the list"
-        },
-        "time": "2014-03-19 15:12:28",
-        "type": "symfony-bundle",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.3.x-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "Sonata\\AdminBundle\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Thomas Rabaix",
-                "email": "thomas.rabaix@sonata-project.org",
-                "homepage": "http://sonata-project.org"
-            },
-            {
-                "name": "Sonata Community",
-                "homepage": "https://github.com/sonata-project/SonataAdminBundle/contributors"
-            }
-        ],
-        "description": "Symfony SonataAdminBundle",
-        "homepage": "http://sonata-project.org/bundles/admin",
-        "keywords": [
-            "Admin Generator",
-            "admin",
-            "bootstrap",
-            "sonata"
-        ]
-    },
-    {
-        "name": "sonata-project/doctrine-orm-admin-bundle",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
-            "reference": "9f04e09e180fee6325a9a36c61d0414ed37e0917"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/9f04e09e180fee6325a9a36c61d0414ed37e0917",
-            "reference": "9f04e09e180fee6325a9a36c61d0414ed37e0917",
-            "shasum": ""
-        },
-        "require": {
-            "doctrine/orm": "~2.3",
-            "sonata-project/admin-bundle": "~2.2,>=2.2.2",
-            "sonata-project/exporter": "~1.3,>=1.3.1",
-            "symfony/console": "~2.2",
-            "symfony/doctrine-bridge": "~2.2",
-            "symfony/form": "~2.2",
-            "symfony/framework-bundle": "~2.2",
-            "symfony/security": "~2.2"
-        },
-        "require-dev": {
-            "simplethings/entity-audit-bundle": "~0.1",
-            "sonata-project/admin-bundle": "~2.2@dev"
-        },
-        "suggest": {
-            "simplethings/entity-audit-bundle": "If you want to support for versioning of entities and their associations."
-        },
-        "time": "2014-03-19 11:44:11",
-        "type": "symfony-bundle",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.2.x-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "Sonata\\DoctrineORMAdminBundle\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Thomas Rabaix",
-                "email": "thomas.rabaix@sonata-project.org",
-                "homepage": "http://sonata-project.org"
-            },
-            {
-                "name": "Sonata Community",
-                "homepage": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle/contributors"
-            }
-        ],
-        "description": "Symfony Sonata / Integrate Doctrine ORM into the SonataAdminBundle",
-        "homepage": "http://sonata-project.org/bundles/admin",
-        "keywords": [
-            "Admin Generator",
-            "admin",
-            "bootstrap",
-            "generator",
             "sonata"
         ]
     },
@@ -2802,58 +2422,6 @@
         ]
     },
     {
-        "name": "sonata-project/google-authenticator",
-        "version": "1.0.1",
-        "version_normalized": "1.0.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/sonata-project/GoogleAuthenticator.git",
-            "reference": "0bb0f409a93da46fd76fe641b3f0c5aa52d3c063"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/sonata-project/GoogleAuthenticator/zipball/0bb0f409a93da46fd76fe641b3f0c5aa52d3c063",
-            "reference": "0bb0f409a93da46fd76fe641b3f0c5aa52d3c063",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2014-02-14 12:23:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Google\\Authenticator\\": "lib/",
-                "Google\\Authenticator\\Tests\\": "tests/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Thomas Rabaix",
-                "email": "thomas.rabaix@gmail.com",
-                "homepage": "http://sonata-project.org/"
-            },
-            {
-                "name": "Christian Stocker",
-                "email": "me@chregu.tv"
-            },
-            {
-                "name": "Andre DeMarre",
-                "homepage": "http://www.devnetwork.net/viewtopic.php?f=50&t=94989"
-            }
-        ],
-        "description": "Library to integrate Google Authenticator into a PHP project",
-        "homepage": "https://github.com/sonata-project/GoogleAuthenticator",
-        "keywords": [
-            "google authenticator"
-        ]
-    },
-    {
         "name": "sonata-project/easy-extends-bundle",
         "version": "2.1.6",
         "version_normalized": "2.1.6.0",
@@ -3034,18 +2602,275 @@
         ]
     },
     {
+        "name": "sonata-project/jquery-bundle",
+        "version": "1.10.2",
+        "version_normalized": "1.10.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sonata-project/SonatajQueryBundle.git",
+            "reference": "a53282159f54bc44379d63727a042254841302d7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sonata-project/SonatajQueryBundle/zipball/a53282159f54bc44379d63727a042254841302d7",
+            "reference": "a53282159f54bc44379d63727a042254841302d7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "time": "2014-04-01 12:48:59",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.9.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Sonata\\jQueryBundle\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thomas Rabaix",
+                "email": "thomas.rabaix@sonata-project.org",
+                "homepage": "http://sonata-project.org"
+            },
+            {
+                "name": "Sonata Community",
+                "homepage": "https://github.com/sonata-project/SonatajQueryBundle/contributors"
+            }
+        ],
+        "description": "Symfony SonatajQueryBundle",
+        "homepage": "http://sonata-project.org/bundles/jquery",
+        "keywords": [
+            "jquery",
+            "sonata"
+        ]
+    },
+    {
+        "name": "sonata-project/admin-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sonata-project/SonataAdminBundle.git",
+            "reference": "ed973e2412e6ac0d6560aef41db6e85e85b5e629"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/ed973e2412e6ac0d6560aef41db6e85e85b5e629",
+            "reference": "ed973e2412e6ac0d6560aef41db6e85e85b5e629",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/common": "~2.2",
+            "knplabs/knp-menu": ">=1.1.0,<3.0.0",
+            "knplabs/knp-menu-bundle": ">=1.1.0,<3.0.0",
+            "sensio/generator-bundle": "~2.3",
+            "sonata-project/block-bundle": "~2.2,>=2.2.7",
+            "sonata-project/core-bundle": "~2.2",
+            "sonata-project/exporter": "~1.0",
+            "sonata-project/jquery-bundle": "1.10.2",
+            "symfony/class-loader": "~2.3",
+            "symfony/config": "~2.3",
+            "symfony/console": "~2.3",
+            "symfony/form": "~2.3",
+            "symfony/http-foundation": "~2.3",
+            "symfony/routing": "~2.3",
+            "symfony/security-bundle": "~2.3",
+            "symfony/twig-bridge": "~2.3",
+            "symfony/validator": "~2.3",
+            "twig/extensions": "~1.0",
+            "twig/twig": "~1.12"
+        },
+        "require-dev": {
+            "jms/translation-bundle": "~1.1",
+            "sonata-project/intl-bundle": "~2.1",
+            "symfony/yaml": "~2.3"
+        },
+        "suggest": {
+            "jms/translation-bundle": "Extract message keys from Admins",
+            "sonata-project/intl-bundle": "Add localized date and number into the list"
+        },
+        "time": "2014-04-02 17:16:46",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Sonata\\AdminBundle\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thomas Rabaix",
+                "email": "thomas.rabaix@sonata-project.org",
+                "homepage": "http://sonata-project.org"
+            },
+            {
+                "name": "Sonata Community",
+                "homepage": "https://github.com/sonata-project/SonataAdminBundle/contributors"
+            }
+        ],
+        "description": "Symfony SonataAdminBundle",
+        "homepage": "http://sonata-project.org/bundles/admin",
+        "keywords": [
+            "Admin Generator",
+            "admin",
+            "bootstrap",
+            "sonata"
+        ]
+    },
+    {
+        "name": "sonata-project/google-authenticator",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sonata-project/GoogleAuthenticator.git",
+            "reference": "72f47caddd09d09c0d3c3e046f6b435e0c004cd4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sonata-project/GoogleAuthenticator/zipball/72f47caddd09d09c0d3c3e046f6b435e0c004cd4",
+            "reference": "72f47caddd09d09c0d3c3e046f6b435e0c004cd4",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2014-03-31 09:18:53",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Google\\Authenticator\\": "lib/",
+                "Google\\Authenticator\\Tests\\": "tests/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thomas Rabaix",
+                "email": "thomas.rabaix@gmail.com",
+                "homepage": "http://sonata-project.org/"
+            },
+            {
+                "name": "Christian Stocker",
+                "email": "me@chregu.tv"
+            },
+            {
+                "name": "Andre DeMarre",
+                "homepage": "http://www.devnetwork.net/viewtopic.php?f=50&t=94989"
+            }
+        ],
+        "description": "Library to integrate Google Authenticator into a PHP project",
+        "homepage": "https://github.com/sonata-project/GoogleAuthenticator",
+        "keywords": [
+            "google authenticator"
+        ]
+    },
+    {
+        "name": "sonata-project/doctrine-orm-admin-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
+            "reference": "dc6ededfd6547dfc70d3e6022e7a2543eabd682e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/dc6ededfd6547dfc70d3e6022e7a2543eabd682e",
+            "reference": "dc6ededfd6547dfc70d3e6022e7a2543eabd682e",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/orm": "~2.4",
+            "sonata-project/admin-bundle": "~2.3@dev",
+            "sonata-project/exporter": "~1.3,>=1.3.1",
+            "symfony/console": "~2.3",
+            "symfony/doctrine-bridge": "~2.2",
+            "symfony/form": "~2.3",
+            "symfony/framework-bundle": "~2.2",
+            "symfony/security": "~2.3"
+        },
+        "require-dev": {
+            "simplethings/entity-audit-bundle": "~0.1",
+            "sonata-project/admin-bundle": "~2.3@dev"
+        },
+        "suggest": {
+            "simplethings/entity-audit-bundle": "If you want to support for versioning of entities and their associations."
+        },
+        "time": "2014-04-02 16:01:59",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Sonata\\DoctrineORMAdminBundle\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thomas Rabaix",
+                "email": "thomas.rabaix@sonata-project.org",
+                "homepage": "http://sonata-project.org"
+            },
+            {
+                "name": "Sonata Community",
+                "homepage": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle/contributors"
+            }
+        ],
+        "description": "Symfony Sonata / Integrate Doctrine ORM into the SonataAdminBundle",
+        "homepage": "http://sonata-project.org/bundles/admin",
+        "keywords": [
+            "Admin Generator",
+            "admin",
+            "bootstrap",
+            "generator",
+            "sonata"
+        ]
+    },
+    {
         "name": "sonata-project/user-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/sonata-project/SonataUserBundle.git",
-            "reference": "760cca656f401c1e7a10025299e621bc03c14645"
+            "reference": "1a68f9392488329d98049d3ba550a73b162ceb88"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sonata-project/SonataUserBundle/zipball/760cca656f401c1e7a10025299e621bc03c14645",
-            "reference": "760cca656f401c1e7a10025299e621bc03c14645",
+            "url": "https://api.github.com/repos/sonata-project/SonataUserBundle/zipball/1a68f9392488329d98049d3ba550a73b162ceb88",
+            "reference": "1a68f9392488329d98049d3ba550a73b162ceb88",
             "shasum": ""
         },
         "require": {
@@ -3070,7 +2895,7 @@
             "sonata-project/doctrine-orm-admin-bundle": "~2.2",
             "sonata-project/seo-bundle": "~1.1"
         },
-        "time": "2014-03-19 11:47:16",
+        "time": "2014-03-31 14:18:29",
         "type": "symfony-bundle",
         "extra": {
             "branch-alias": {
@@ -3104,6 +2929,189 @@
             "google authenticator",
             "sonata",
             "user"
+        ]
+    },
+    {
+        "name": "knplabs/knp-menu",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/KnpLabs/KnpMenu.git",
+            "reference": "ff1a6e73e79c9f75c6a130d03b07f05c89fede63"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/ff1a6e73e79c9f75c6a130d03b07f05c89fede63",
+            "reference": "ff1a6e73e79c9f75c6a130d03b07f05c89fede63",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "pimple/pimple": "1.0.*",
+            "silex/silex": "1.0.*",
+            "twig/twig": ">=1.2,<2.0-dev"
+        },
+        "suggest": {
+            "pimple/pimple": "for the built-in implementations of the menu provider and renderer provider",
+            "silex/silex": "for the integration with your silex application",
+            "twig/twig": "for the TwigRenderer and the integration with your templates"
+        },
+        "time": "2014-03-07 15:36:26",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Knp\\Menu\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Christophe Coevoet",
+                "email": "stof@notk.org"
+            },
+            {
+                "name": "KnpLabs",
+                "homepage": "http://knplabs.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://github.com/KnpLabs/KnpMenu/contributors"
+            }
+        ],
+        "description": "An object oriented menu library",
+        "homepage": "http://knplabs.com",
+        "keywords": [
+            "menu",
+            "tree"
+        ]
+    },
+    {
+        "name": "knplabs/knp-menu-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Knp/Bundle/MenuBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/KnpLabs/KnpMenuBundle.git",
+            "reference": "e5700ed8cbd5c402d24d6dda118aa23400937288"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/e5700ed8cbd5c402d24d6dda118aa23400937288",
+            "reference": "e5700ed8cbd5c402d24d6dda118aa23400937288",
+            "shasum": ""
+        },
+        "require": {
+            "knplabs/knp-menu": "~2.0, >=2.0.0-beta1",
+            "symfony/framework-bundle": "~2.0"
+        },
+        "time": "2014-03-03 22:44:01",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Knp\\Bundle\\MenuBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Christophe Coevoet",
+                "email": "stof@notk.org"
+            },
+            {
+                "name": "Knplabs",
+                "homepage": "http://knplabs.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://github.com/KnpLabs/KnpMenuBundle/contributors"
+            }
+        ],
+        "description": "This bundle provides an integration of the KnpMenu library",
+        "keywords": [
+            "menu"
+        ]
+    },
+    {
+        "name": "sonata-project/core-bundle",
+        "version": "2.2.5",
+        "version_normalized": "2.2.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sonata-project/SonataCoreBundle.git",
+            "reference": "863809982c98b8444aeab1ff442c117d74f1a7c7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/863809982c98b8444aeab1ff442c117d74f1a7c7",
+            "reference": "863809982c98b8444aeab1ff442c117d74f1a7c7",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/config": "~2.0",
+            "symfony/form": "~2.2",
+            "symfony/http-foundation": "~2.2",
+            "symfony/translation": "~2.2",
+            "twig/twig": "~1.12"
+        },
+        "require-dev": {
+            "doctrine/orm": "~2.4",
+            "doctrine/phpcr-odm": "~1.0",
+            "sonata-project/exporter": "~1.3"
+        },
+        "time": "2014-02-14 14:24:51",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.2.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Sonata\\CoreBundle\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thomas Rabaix",
+                "email": "thomas.rabaix@sonata-project.org",
+                "homepage": "http://sonata-project.org"
+            },
+            {
+                "name": "Sonata Community",
+                "homepage": "https://github.com/sonata-project/SonataCoreBundle/contributors"
+            }
+        ],
+        "description": "Symfony SonataCoreBundle",
+        "homepage": "http://sonata-project.org/bundles/core",
+        "keywords": [
+            "sonata"
         ]
     }
 ]
