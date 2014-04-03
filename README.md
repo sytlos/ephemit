@@ -75,6 +75,10 @@ rm -rf app/cache/*
 
 ### Pull
 
+``` bash
+git pull origin master
+```
+
 ### Push
 
 1. Regarder les changements effectués
@@ -101,4 +105,5 @@ git commit -m "description des modifs"
 git push origin master
 ```
 Username for 'https://github.com' : hugo.soltys@gmail.com
+
 Password for 'https://hugo.soltys@gmail.com@github.com': projetephemit2014
