@@ -100,4 +100,5 @@ git commit -m "description des modifs"
 ``` bash
 git push origin master
 ```
-
+Username for 'https://github.com' : hugo.soltys@gmail.com
+Password for 'https://hugo.soltys@gmail.com@github.com': projetephemit2014
