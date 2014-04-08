@@ -2,12 +2,27 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Ephemit{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('bundles/ephemitsite/js/jquery-1.8.3.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/ephemitsite/js/main.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/ephemitsite/js/jquery-ui-1.9.2.custom.js') }}"></script>
+            <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+            <script type="text/javascript" src="{{ asset('bundles/ephemitsite/js/jquery.ui.autocomplete.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/ephemitsite/js/jquery.jscrollpane.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/ephemitsite/js/jquery-ias.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/ephemitsite/js/jquery.localscroll.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/ephemitsite/js/jquery.scrollTo.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/ephemitsite/js/jquery.geocomplete.js') }}"></script>
+            <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+        {% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        
     </body>
 </html>

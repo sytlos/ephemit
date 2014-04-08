@@ -1,3 +1,7 @@
+ephemit_evenement:
+    resource: "@EphemitEvenementBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ephemit_site:
     resource: "@EphemitSiteBundle/Resources/config/routing.yml"
     prefix:   /

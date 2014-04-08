@@ -21,6 +21,11 @@ class Utilisateur extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    /**
+     *@ORM\OneToMany(targetEntity="Ephemit\EvenementBundle\Entity\Evenement", mappedBy="utilisateur", cascade={"persist"})
+     */
+    private $evenements;
 
 
     /**
@@ -31,5 +36,45 @@ class Utilisateur extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->evenements = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add evenements
+     *
+     * @param \Ephemit\EvenementBundle\Entity\Evenement $evenements
+     * @return Utilisateur
+     */
+    public function addEvenement(\Ephemit\EvenementBundle\Entity\Evenement $evenements)
+    {
+        $this->evenements[] = $evenements;
+
+        return $this;
+    }
+
+    /**
+     * Remove evenements
+     *
+     * @param \Ephemit\EvenementBundle\Entity\Evenement $evenements
+     */
+    public function removeEvenement(\Ephemit\EvenementBundle\Entity\Evenement $evenements)
+    {
+        $this->evenements->removeElement($evenements);
+    }
+
+    /**
+     * Get evenements
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEvenements()
+    {
+        return $this->evenements;
     }
 }

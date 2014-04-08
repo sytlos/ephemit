@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
             new Sonata\CoreBundle\SonataCoreBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
+            new Ephemit\EvenementBundle\EphemitEvenementBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
