@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+<h1>Mes evenements</h1>
+
+<table>
+    <th>Nom</th>
+    <th>Date</th>
+    <th>Lieu</th>
+    <th>Description</th>
+    <th>Modifier</th>
+    <th>Supprimer</th>
+{% for e in listEvent %}
+    <tr>
+        <td>{{e.nom}}</td>
+        <td>{{e.date|date('d/m/Y')}}</td>
+        <td>{{e.lieu}}</td>
+        <td>{{e.description}}</td>
+        <td><a href="{{path('ephemit_evenement_modifier', {'id':e.id})}}" class="colorbox">Modifier</a></td>
+        <td><a href="{{path('ephemit_evenement_supprimer', {'id':e.id})}}" class="colorbox">supprimer</a></td>
+    </tr>
+{% endfor %}
+</table>
+
+<a href="{{path('ephemit_site_homepage')}}">Retour</a>
+
+
+{% endblock %}

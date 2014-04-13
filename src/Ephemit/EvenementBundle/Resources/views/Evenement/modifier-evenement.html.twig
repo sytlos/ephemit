@@ -1,0 +1,5 @@
+<h1>Modifier un evenement</h1>
+<form action="{{path('ephemit_evenement_modifier', {'id':event.id})}}" method="post" id="formEvent">
+    {{form_rest(formEvent)}}
+    <input type="submit" value="Envoyer">
+ </form>

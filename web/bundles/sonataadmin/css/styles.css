@@ -1,45 +1,66 @@
 /**
  * SonataAdminBundle Theme based on SB Admin v2.0
  * http://startbootstrap.com/templates/sb-admin-v2/
- */
+*/
+
+html {
+    position: relative;
+    min-height: 100%;
+}
 
 body {
-    background-color: #f8f8f8;
-    padding-top: 50px;
+    margin-bottom: 20px;
 }
 
-
-/* wrappers */
-
-#wrapper {
+footer {
+    position: absolute;
+    bottom: 0;
     width: 100%;
+    height: 20px;
+    background-color: #333;
 }
 
-.sonata-bc #page-wrapper {
-    padding-top: 10px;
+footer p {
+    margin: 0;
 }
 
-/*#page-wrapper {*/
-    /*padding: 15px 15px 0;*/
-    /*min-height: 568px;*/
-    /*background-color: #fff;*/
-/*}*/
+footer a {
+    color: #f6f6f6;
+}
 
-/*@media(min-width:768px) {*/
-    /*#page-wrapper {*/
-        /*position: inherit;*/
-        /*margin: 0 0 0 250px;*/
-        /*padding: 30px 30px 0;*/
-        /*min-height: 1300px;*/
-        /*border-left: 1px solid #e7e7e7;*/
-    /*}*/
-/*}*/
+body > .header .logo {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.open > .dropdown-menu {
+    animation-duration: .3s;
+    -webkit-animation-duration: .3s;
+    -moz-animation-duration: .3s;
+}
+
+/* Buttons */
+
+.btn.btn-outline {
+    color: inherit;
+    background-color: transparent;
+    transition: all .5s;
+}
+
+.btn.btn-primary.btn-outline:hover,
+.btn.btn-success.btn-outline:hover,
+.btn.btn-info.btn-outline:hover,
+.btn.btn-warning.btn-outline:hover,
+.btn.btn-danger.btn-outline:hover {
+    color: #fff;
+}
+
+
+
+/* navigation */
 
 .navbar-static-side ul li {
     border-bottom: 1px solid #e7e7e7;
 }
-
-/* navigation */
 
 .navbar-brand {
     padding-right: 20px;
@@ -56,6 +77,18 @@ body {
     padding: 0 10px;
 }
 
+.right-side > .content-header {
+    padding-bottom: 0;
+}
+
+.content-header .navbar {
+    margin-bottom: 0;
+}
+
+.content-header .navbar-nav.navbar-right:last-child {
+    margin-right: 0;
+}
+
 /* breadcrumb */
 
 .sonata-bc .breadcrumb {
@@ -67,6 +100,17 @@ body {
 
 .sonata-bc .breadcrumb li a {
     display: inline-block;
+}
+
+/* MEGA MENU STYLE
+********************************/
+.dropdown-menu.multi-column .dropdown-menu {
+    display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-width:100px;
 }
 
 /* top right */
@@ -84,17 +128,23 @@ body {
     display: inline-block;
 }
 
-.navbar-top-links li:last-child {
-    margin-right: 15px;
-}
-
 .navbar-top-links li a,
 .navbar-top-links li span {
     padding: 15px;
     min-height: 50px;
 }
+
 .navbar-top-links li a:hover {
     text-decoration: none;
+}
+
+.skin-black .navbar .breadcrumb > li  > a:hover {
+    color: #444;
+    background: #f5f5f5;
+}
+
+.skin-black .navbar .dropdown-menu > li > a:hover {
+    background-color: #f5f5f5;
 }
 
 .navbar-top-links .dropdown-menu li {
@@ -136,6 +186,12 @@ body {
 .navbar-top-links .dropdown-user {
     right: 0;
     left: auto;
+}
+
+/* Content navbar */
+
+body.fixed .content-header .navbar {
+    position: relative;
 }
 
 /* sidebar menu styles */
@@ -199,9 +255,9 @@ td.sonata-ba-list-label {
 
 /* side filter */
 
-h4.filter_legend {
+.box .box-header h4.box-title.filter_legend {
     position: relative;
-    padding-left: 16px;
+    padding-left: 20px;
     cursor: pointer;
 }
 
@@ -217,6 +273,7 @@ h4.filter_legend:before {
     top: 50%;
     left: 2px;
     margin-top: -2px;
+    margin-left: 5px;
 }
 
 h4.filter_legend.active,
@@ -228,7 +285,6 @@ tr.filter.active * {
 form.sonata-filter-form.form-stacked {
     padding-left: 0;
 }
-
 
 /* Overrides */
 

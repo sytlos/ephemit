@@ -28,6 +28,8 @@ class AppKernel extends Kernel
             new Sonata\CoreBundle\SonataCoreBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Ephemit\EvenementBundle\EphemitEvenementBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Ephemit\CalendrierBundle\EphemitCalendrierBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

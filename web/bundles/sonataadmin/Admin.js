@@ -1,3 +1,14 @@
+/*
+
+ This file is part of the Sonata package.
+
+ (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+ For the full copyright and license information, please view the LICENSE
+ file that was distributed with this source code.
+
+ */
+
 jQuery(document).ready(function() {
     jQuery('html').removeClass('no-js');
     if (window.SONATA_CONFIG && window.SONATA_CONFIG.CONFIRM_EXIT) {
@@ -127,7 +138,7 @@ var Admin = {
                 content: message,
                 trigger: 'hover',
                 html: true,
-                placement: 'right',
+                placement: 'top',
                 template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content alert-error"><p></p></div></div></div>'
             });
 

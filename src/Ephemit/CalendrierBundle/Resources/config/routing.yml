@@ -1,0 +1,3 @@
+ephemit_calendrier_homepage:
+    pattern:  /calendrier
+    defaults: { _controller: EphemitCalendrierBundle:Calendrier:index }

@@ -1,0 +1,7 @@
+parameters:
+#    ephemit_calendrier.example.class: Ephemit\CalendrierBundle\Example
+
+services:
+#    ephemit_calendrier.example:
+#        class: %ephemit_calendrier.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

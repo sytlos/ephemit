@@ -14,7 +14,7 @@ class CreerEvenementType extends AbstractType
                 'required'=> true,
                 'label'=> 'Nommez votre evenement'
             ))
-            ->add('date','text', array(
+            ->add('date', 'text', array(
                 'required'=>true,
                 'label'=>'Quand cela a-t-il lieu ?',
                 'attr'=>array('class'=>'datepicker')
