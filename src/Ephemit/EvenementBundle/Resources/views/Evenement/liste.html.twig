@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-<h1>Mes evenements</h1>
+<h1>Mes pages</h1>
 
 <table>
     <th>Nom</th>
@@ -9,19 +9,40 @@
     <th>Description</th>
     <th>Modifier</th>
     <th>Supprimer</th>
+    <th>Favoris</th>
 {% for e in listEvent %}
-    <tr>
+    <tr id="ligne_fav_{{e.id}}">
         <td>{{e.nom}}</td>
         <td>{{e.date|date('d/m/Y')}}</td>
         <td>{{e.lieu}}</td>
         <td>{{e.description}}</td>
         <td><a href="{{path('ephemit_evenement_modifier', {'id':e.id})}}" class="colorbox">Modifier</a></td>
         <td><a href="{{path('ephemit_evenement_supprimer', {'id':e.id})}}" class="colorbox">supprimer</a></td>
+        <td id="cellule_fav_{{e.id}}"><a href="{{path('ephemit_favoris_ajouter', {'id':e.id})}}" id="ajouter_fav_{{e.id}}">Ajouter</a></td>
     </tr>
+    
+    <script>
+        $('#ajouter_fav_{{e.id}}').click(function()
+        {
+            $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: Routing.generate("ephemit_favoris_ajouter", {"id":{{e.id}} }),
+                    success: function(data)
+                    {
+                        $('#ligne_fav_{{e.id}}').fadeOut();
+                    }
+            });
+            return false;
+        });
+    </script>
 {% endfor %}
 </table>
 
 <a href="{{path('ephemit_site_homepage')}}">Retour</a>
 
+<div>
+    {% render(controller('EphemitCalendrierBundle:Calendrier:index', {'favoris':favoris})) %}
+</div>
 
 {% endblock %}

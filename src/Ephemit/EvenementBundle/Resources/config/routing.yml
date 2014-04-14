@@ -1,16 +1,28 @@
 ephemit_evenement_creer:
-    pattern:  /evenement/creer
+    pattern:  /page/creer
     defaults: { _controller: EphemitEvenementBundle:Evenement:creer }
+    options:
+        expose: true
 ephemit_evenement_list:
-    pattern:  /mes-evenements
+    pattern:  /mes-pages
     defaults: { _controller: EphemitEvenementBundle:Evenement:liste }
 ephemit_evenement_supprimer:
-    pattern:  /mes-evenements/supprimer/{id}
+    pattern:  /mes-pages/supprimer/{id}
     defaults: { _controller: EphemitEvenementBundle:Evenement:supprimer }
     options:
         expose: true
 ephemit_evenement_modifier:
-    pattern:  /mes-evenements/modifier/{id}
+    pattern:  /mes-pages/modifier/{id}
     defaults: { _controller: EphemitEvenementBundle:Evenement:modifier }
+    options:
+        expose: true
+ephemit_favoris_ajouter:
+    pattern:  /favoris/ajouter/{id}
+    defaults: { _controller: EphemitEvenementBundle:Evenement:ajouterFavoris }
+    options:
+        expose: true
+ephemit_fiche_evenement:
+    pattern:  /page/{cle}
+    defaults: { _controller: EphemitEvenementBundle:Evenement:page }
     options:
         expose: true

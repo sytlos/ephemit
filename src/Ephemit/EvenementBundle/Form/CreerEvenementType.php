@@ -20,13 +20,32 @@ class CreerEvenementType extends AbstractType
                 'attr'=>array('class'=>'datepicker')
             ))
             ->add('description', 'textarea', array(
-                'required'=>true,
+                'required'=>false,
                 'label'=>'Decrivez votre evenement'
             ))
             ->add('lieu', 'text', array(
-                'required'=>true,
+                'required'=>false,
                 'label'=>'Ou cela se produira-t-il ?',
                 'attr'=>array('class'=>'citypicker')
+            ))
+            ->add('publicpass', 'password', array(
+                'required'=>false,
+                'label'=>'Mot de passe (optionnel)'
+            ))
+            ->add('adminpass1', 'password', array(
+                'required'=>true,
+                'label'=>'Choisissez un premier mot de passe admin'
+            ))
+            ->add('adminpass2', 'password', array(
+                'required'=>true,
+                'label'=>'Choisissez un second mot de passe admin'
+            ))
+            ->add('public', 'choice', array(
+                'required'=>true,
+                'label'=>'Cette page est elle ouverte au public ?',
+                'choices'=>array('0'=>'Non', '1'=>'Oui'),
+                'attr'=>array('class'=>'public-choice'),
+                'data'=>'Oui'
             ))
         ;
     }

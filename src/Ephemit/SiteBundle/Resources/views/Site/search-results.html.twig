@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <h1>Resultats de recherche</h1>
+    
+    <table>
+        <th>Nom</th>
+        <th>Date</th>
+        <th>Lieu</th>
+        <th>Description</th>
+            {% for e in events %}
+                <tr>
+                    <td><a href="{{path('ephemit_fiche_evenement', {'cle':e.cle})}}">{{e.nom}}</a></td>
+                    <td>{{e.date|date('d/m/Y')}}</td>
+                    <td>{{e.lieu}}</td>
+                    <td>{{e.description}}</td>
+                </tr>
+            {%endfor%}
+    </table>
+{% endblock %}

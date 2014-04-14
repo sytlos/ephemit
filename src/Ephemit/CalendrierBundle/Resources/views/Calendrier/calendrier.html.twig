@@ -3,4 +3,25 @@
 </div>
 <script type="text/javascript">
     $(".calendar").calendar();
+    
+    $(document).ready(function(){
+        {% for f in favoris %}
+            var date = {{f.date|date('Y')}}{{f.date|date('m')}}{{f.date|date('d')}};
+
+            $('.c-day').each(function(){
+                if($(this).attr('strtime') == date){
+                    $(this).css('background', 'green');
+                    $(this).css('cursor', 'pointer');
+                    $(this).addClass('favori-{{f.date|date('Y')}}{{f.date|date('m')}}{{f.date|date('d')}}');
+                }
+            });
+            
+            
+            $('.favori-{{f.date|date('Y')}}{{f.date|date('m')}}{{f.date|date('d')}}').click(function(){
+                window.location = Routing.generate("ephemit_site_homepage");
+            });
+        {% endfor %}
+            
+    });
+    
 </script>

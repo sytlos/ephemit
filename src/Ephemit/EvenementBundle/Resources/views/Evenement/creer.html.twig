@@ -1,8 +1,46 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    <h1>Creer un evenement</h1>
-    <form action="{{path('ephemit_evenement_creer')}}" method="post" id="formEvent">
+    <h1>Creer une page</h1>
+    <div id="resultat"></div>
+    <form action="" method="post" id="formEvent">
+        {{form_label(formEvent.nom)}}<br>
+        {{form_widget(formEvent.nom)}}<br>
+        {{form_label(formEvent.date)}}<br>
+        {{form_widget(formEvent.date)}}<br>
+        {{form_label(formEvent.description)}}<br>
+        {{form_widget(formEvent.description)}}<br>
+        {{form_label(formEvent.lieu)}}<br>
+        {{form_widget(formEvent.lieu)}}<br>
+        {{form_label(formEvent.public)}}<br>
+        {{form_widget(formEvent.public)}}<br>
+        {{form_label(formEvent.publicpass)}}<br>
+        {{form_widget(formEvent.publicpass)}}<br>
+        {{form_label(formEvent.adminpass1)}}<br>
+        {{form_widget(formEvent.adminpass1)}}<br>
+        {{form_label(formEvent.adminpass2)}}<br>
+        {{form_widget(formEvent.adminpass2)}}<br>
         {{form_rest(formEvent)}}
         <input type="submit" value="Envoyer">
     </form>
+    
+<script>
+    
+    $('#formEvent').submit(function()
+    {
+        $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: Routing.generate("ephemit_evenement_creer"),
+                data:$('#formEvent').serialize(),
+                success: function(data)
+                {
+                    $('#formEvent').slideUp();
+                    $('#resultat').html('Votre evenement a bien ete depose! Vous allez etre redirige');
+                    $('#resultat').slideDown();
+                    setTimeout(function(){ window.location = Routing.generate("ephemit_site_homepage"); }, 3000);
+                }
+        });
+        return false;
+    });
+</script>
 {% endblock %}

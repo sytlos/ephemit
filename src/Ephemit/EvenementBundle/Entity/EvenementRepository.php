@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class EvenementRepository extends EntityRepository
 {
+    public function getPublicEvents($search){
+        
+        $recherche = "%".$search."%";
+        
+        $qb = $this->createQueryBuilder('e')
+                ->where('(e.public = 1) AND (e.nom LIKE :recherche OR e.lieu LIKE :recherche OR e.description LIKE :recherche)')
+                ->setParameter('recherche', $recherche)
+                ->addOrderBy('e.nom', 'ASC');
+        $res = $qb->getQuery()->getResult();
+
+        return $res;
+    }
 }

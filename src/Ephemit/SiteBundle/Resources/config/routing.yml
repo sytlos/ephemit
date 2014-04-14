@@ -1,3 +1,8 @@
 ephemit_site_homepage:
     pattern:  /
     defaults: { _controller: EphemitSiteBundle:Site:index }
+    options:
+        expose: true
+ephemit_site_search:
+    pattern:  /search
+    defaults: { _controller: EphemitSiteBundle:Site:searchPage }

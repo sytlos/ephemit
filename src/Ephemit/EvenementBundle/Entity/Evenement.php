@@ -45,23 +45,51 @@ class Evenement
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lieu", type="string", length=255)
+     * @ORM\Column(name="lieu", type="string", length=255, nullable=true)
      */
     private $lieu;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Ephemit\UtilisateurBundle\Entity\Utilisateur", inversedBy="evenements")
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
+     * @var string
+     *
+     * @ORM\Column(name="publicpass", type="string", length=255, nullable=true)
      */
-    private $utilisateur;
+    private $publicpass;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="adminpass1", type="string", length=255)
+     */
+    private $adminpass1;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="adminpass2", type="string", length=255)
+     */
+    private $adminpass2;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="public", type="boolean")
+     */
+    private $public;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cle", type="string", length=255)
+     */
+    private $cle;
 
     /**
      * Get id
@@ -187,27 +215,120 @@ class Evenement
     {
         return $this->lieu;
     }
+   
 
     /**
-     * Set utilisateur
+     * Set publicpass
      *
-     * @param \Ephemit\UtilisateurBundle\Entity\Utilisateur $utilisateur
+     * @param string $publicpass
      * @return Evenement
      */
-    public function setUtilisateur(\Ephemit\UtilisateurBundle\Entity\Utilisateur $utilisateur)
+    public function setPublicpass($publicpass)
     {
-        $this->utilisateur = $utilisateur;
+        $this->publicpass = $publicpass;
 
         return $this;
     }
 
     /**
-     * Get utilisateur
+     * Get publicpass
      *
-     * @return \Ephemit\UtilisateurBundle\Entity\Utilisateur 
+     * @return string 
      */
-    public function getUtilisateur()
+    public function getPublicpass()
     {
-        return $this->utilisateur;
+        return $this->publicpass;
+    }
+
+    /**
+     * Set adminpass1
+     *
+     * @param string $adminpass1
+     * @return Evenement
+     */
+    public function setAdminpass1($adminpass1)
+    {
+        $this->adminpass1 = $adminpass1;
+
+        return $this;
+    }
+
+    /**
+     * Get adminpass1
+     *
+     * @return string 
+     */
+    public function getAdminpass1()
+    {
+        return $this->adminpass1;
+    }
+
+    /**
+     * Set adminpass2
+     *
+     * @param string $adminpass2
+     * @return Evenement
+     */
+    public function setAdminpass2($adminpass2)
+    {
+        $this->adminpass2 = $adminpass2;
+
+        return $this;
+    }
+
+    /**
+     * Get adminpass2
+     *
+     * @return string 
+     */
+    public function getAdminpass2()
+    {
+        return $this->adminpass2;
+    }
+
+    /**
+     * Set public
+     *
+     * @param boolean $public
+     * @return Evenement
+     */
+    public function setPublic($public)
+    {
+        $this->public = $public;
+
+        return $this;
+    }
+
+    /**
+     * Get public
+     *
+     * @return boolean 
+     */
+    public function getPublic()
+    {
+        return $this->public;
+    }
+
+    /**
+     * Set cle
+     *
+     * @param string $cle
+     * @return Evenement
+     */
+    public function setCle($cle)
+    {
+        $this->cle = $cle;
+
+        return $this;
+    }
+
+    /**
+     * Get cle
+     *
+     * @return string 
+     */
+    public function getCle()
+    {
+        return $this->cle;
     }
 }

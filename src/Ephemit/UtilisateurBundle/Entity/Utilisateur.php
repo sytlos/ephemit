@@ -23,9 +23,10 @@ class Utilisateur extends BaseUser
     protected $id;
     
     /**
-     *@ORM\OneToMany(targetEntity="Ephemit\EvenementBundle\Entity\Evenement", mappedBy="utilisateur", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Ephemit\EvenementBundle\Entity\Evenement")
+     * @ORM\JoinTable(name="utilisateur_favoris")
      */
-    private $evenements;
+    private $favoris;
 
 
     /**
@@ -42,39 +43,41 @@ class Utilisateur extends BaseUser
      */
     public function __construct()
     {
-        $this->evenements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->favoris = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    
+
     /**
-     * Add evenements
+     * Add favoris
      *
-     * @param \Ephemit\EvenementBundle\Entity\Evenement $evenements
+     * @param \Ephemit\EvenementBundle\Entity\Evenement $favoris
      * @return Utilisateur
      */
-    public function addEvenement(\Ephemit\EvenementBundle\Entity\Evenement $evenements)
+    public function addFavori(\Ephemit\EvenementBundle\Entity\Evenement $favoris)
     {
-        $this->evenements[] = $evenements;
+        $this->favoris[] = $favoris;
 
         return $this;
     }
 
     /**
-     * Remove evenements
+     * Remove favoris
      *
-     * @param \Ephemit\EvenementBundle\Entity\Evenement $evenements
+     * @param \Ephemit\EvenementBundle\Entity\Evenement $favoris
      */
-    public function removeEvenement(\Ephemit\EvenementBundle\Entity\Evenement $evenements)
+    public function removeFavori(\Ephemit\EvenementBundle\Entity\Evenement $favoris)
     {
-        $this->evenements->removeElement($evenements);
+        $this->favoris->removeElement($favoris);
     }
 
     /**
-     * Get evenements
+     * Get favoris
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getEvenements()
+    public function getFavoris()
     {
-        return $this->evenements;
+        return $this->favoris;
     }
 }

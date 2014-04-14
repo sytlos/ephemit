@@ -26,7 +26,7 @@ class SupprimerUtilisateurCommand extends ContainerAwareCommand
         $repoUser = $this->getContainer()->get('doctrine')->getRepository('EphemitUtilisateurBundle:Utilisateur');
         $listUser = $repoUser->findAll();
         
-        $aweekago = new \DateTime('-7 days');
+        $aweekago = new \DateTime('-30 days');
         
         foreach($listUser as $user){
             if($user->getLastLogin() < $aweekago){
