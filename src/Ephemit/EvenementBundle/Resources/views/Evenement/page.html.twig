@@ -1,4 +1,13 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    <h1>{{page.nom}}</h1>
+    {% if protect %}
+        <h1>cette page est protegee</h1>
+        
+    {% else %}
+        <h1>{{page.nom}}</h1>
+
+        <div>{{page.description}}</div>
+        <div>{{page.lieu}}</div>
+        <div>{{page.date|date('d/m/Y')}}</div>
+    {% endif %}
 {% endblock %}

@@ -162,10 +162,11 @@ class EvenementController extends Controller
         $page = $repoEvent->findOneByCle($cle);
         
         if($page->getPublicpass() != null){
-            echo "page protegee !";
+            $protect = true;
         }
         else{
-            return $this->render('EphemitEvenementBundle:Evenement:page.html.twig', array('page'=>$page));
+            $protect = false;
         }
+        return $this->render('EphemitEvenementBundle:Evenement:page.html.twig', array('page'=>$page, 'protect'=>$protect));
     }
 }
