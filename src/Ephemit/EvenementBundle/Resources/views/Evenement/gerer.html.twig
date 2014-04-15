@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    {% if valid %}
+        Identification...
+        <script>
+            setTimeout(function(){ window.location = Routing.generate("ephemit_page_admin", {"cle":"{{page.cle}}"}); }, 3000);
+        </script>
+    {% else %}
+        <h1>cette page est protegee</h1>
+        <form method="post" action="{{path('ephemit_gerer_evenement', {'cle':page.cle})}}">
+            <div>{{form_widget(formPassAdmin.adminpass1)}}</div>
+            <div>{{form_widget(formPassAdmin.adminpass2)}}</div>
+            {{form_rest(formPassAdmin)}}
+            <input type="submit" value="Valider">
+        </form>
+    {% endif %}
+{% endblock %}

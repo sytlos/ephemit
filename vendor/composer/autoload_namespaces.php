@@ -19,6 +19,7 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src'),
     'PhpCollection' => array($vendorDir . '/phpcollection/phpcollection/src'),
+    'Oneup\\UploaderBundle' => array($vendorDir . '/oneup/uploader-bundle'),
     'Nelmio\\ApiDocBundle' => array($vendorDir . '/nelmio/api-doc-bundle'),
     'Negotiation' => array($vendorDir . '/willdurand/negotiation/src'),
     'Michelf' => array($vendorDir . '/michelf/php-markdown'),

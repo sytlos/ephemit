@@ -97,6 +97,31 @@ class __TwigTemplate_35488de66483c2b0125e244ce39eef26b31b478c67e270ae00a9b5dfea3
         echo "<br>
         ";
         // line 22
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["formEvent"]) ? $context["formEvent"] : $this->getContext($context, "formEvent")), "facebook"), 'label');
+        echo "<br>
+        ";
+        // line 23
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["formEvent"]) ? $context["formEvent"] : $this->getContext($context, "formEvent")), "facebook"), 'widget');
+        echo "<br>
+        ";
+        // line 24
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["formEvent"]) ? $context["formEvent"] : $this->getContext($context, "formEvent")), "twitter"), 'label');
+        echo "<br>
+        ";
+        // line 25
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["formEvent"]) ? $context["formEvent"] : $this->getContext($context, "formEvent")), "twitter"), 'widget');
+        echo "<br>
+        ";
+        // line 26
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["formEvent"]) ? $context["formEvent"] : $this->getContext($context, "formEvent")), "documents"), 'label');
+        echo "<br>
+        ";
+        // line 27
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["formEvent"]) ? $context["formEvent"] : $this->getContext($context, "formEvent")), "documents"), 'widget');
+        echo "<br>
+        
+        ";
+        // line 29
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock((isset($context["formEvent"]) ? $context["formEvent"] : $this->getContext($context, "formEvent")), 'rest');
         echo "
         <input type=\"submit\" value=\"Envoyer\">
@@ -123,6 +148,113 @@ class __TwigTemplate_35488de66483c2b0125e244ce39eef26b31b478c67e270ae00a9b5dfea3
         });
         return false;
     });
+    
+\$(document).ready(function() {
+  // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+  var \$container = \$('#ephemit_evenement_creer_documents');
+
+  // On ajoute un lien pour ajouter une nouvelle catégorie
+  var \$lienAjout = \$('<a href=\"#\" id=\"ajout_categorie\" class=\"btn\">Ajouter un document</a>');
+  \$container.append(\$lienAjout);
+  
+  // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+  var index = \$container.find(':input').length;
+
+  // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+  \$lienAjout.click(function(e) {
+    ajouterCategorie(\$container);
+    \$('.fileupload').uploadify(
+    {
+        swf: \"";
+        // line 71
+        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bundles/ephemitsite/js/uploadify.swf"), "html", null, true);
+        echo "\",
+        uploader: \"";
+        // line 72
+        echo twig_escape_filter($this->env, $this->env->getExtension('oneup_uploader')->endpoint("gallery"), "html", null, true);
+        echo "\",
+        buttonText: 'Choisir',
+        cancelImg : '";
+        // line 74
+        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bundles/ephemitsite/images/uploadify-cancel.png"), "html", null, true);
+        echo "',
+        multi : false,
+        onUploadComplete : function(file,data){
+            var count = index - 1;
+            \$('#ephemit_evenement_creer_documents_'+count+'_nom').val(data);
+        }
+    });
+    e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+    return false;
+  });
+
+  // On ajoute un premier champ directement s'il n'en existe pas déjà un (cas d'un nouvel article par exemple).
+  if (index == 0) {
+    ajouterCategorie(\$container);
+  } else {
+    // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+    \$container.children('div').each(function() {
+      ajouterLienSuppression(\$(this));
+    });
+  }
+
+  // La fonction qui ajoute un formulaire Categorie
+  function ajouterCategorie(\$container) {
+    // Dans le contenu de l'attribut « data-prototype », on remplace :
+    // - le texte \"__name__label__\" qu'il contient par le label du champ
+    // - le texte \"__name__\" qu'il contient par le numéro du champ
+    var \$prototype = \$(\$container.attr('data-prototype').replace(/__name__label__/g, 'Document n°' + (index+1))
+                                                        .replace(/__name__/g, index));
+
+    // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+    ajouterLienSuppression(\$prototype);
+
+    // On ajoute le prototype modifié à la fin de la balise <div>
+    \$container.append(\$prototype);
+
+    // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+    index++;
+  }
+
+  // La fonction qui ajoute un lien de suppression d'une catégorie
+  function ajouterLienSuppression(\$prototype) {
+    // Création du lien
+    \$lienSuppression = \$('<a href=\"#\" class=\"btn btn-danger\">Supprimer</a>');
+
+    // Ajout du lien
+    \$prototype.append(\$lienSuppression);
+
+    // Ajout du listener sur le clic du lien
+    \$lienSuppression.click(function(e) {
+      \$prototype.remove();
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+  }
+  
+   \$('.fileupload').uploadify(
+    {
+        swf: \"";
+        // line 131
+        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bundles/ephemitsite/js/uploadify.swf"), "html", null, true);
+        echo "\",
+        uploader: \"";
+        // line 132
+        echo twig_escape_filter($this->env, $this->env->getExtension('oneup_uploader')->endpoint("gallery"), "html", null, true);
+        echo "\",
+        buttonText: 'Choisir',
+        cancelImg : '";
+        // line 134
+        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bundles/ephemitsite/images/uploadify-cancel.png"), "html", null, true);
+        echo "',
+        multi : false,
+        onUploadSuccess : function(file, data, response){
+            var count = index - 1;
+            alert(response);
+            \$('#ephemit_evenement_creer_documents_'+count+'_nom').val(file.name);
+        }
+    });
+});
 </script>
 ";
     }
@@ -139,6 +271,6 @@ class __TwigTemplate_35488de66483c2b0125e244ce39eef26b31b478c67e270ae00a9b5dfea3
 
     public function getDebugInfo()
     {
-        return array (  100 => 22,  96 => 21,  92 => 20,  88 => 19,  84 => 18,  80 => 17,  76 => 16,  72 => 15,  68 => 14,  64 => 13,  60 => 12,  56 => 11,  52 => 10,  48 => 9,  44 => 8,  40 => 7,  36 => 6,  31 => 3,  28 => 2,);
+        return array (  248 => 134,  243 => 132,  239 => 131,  179 => 74,  174 => 72,  170 => 71,  125 => 29,  120 => 27,  116 => 26,  112 => 25,  108 => 24,  104 => 23,  100 => 22,  96 => 21,  92 => 20,  88 => 19,  84 => 18,  80 => 17,  76 => 16,  72 => 15,  68 => 14,  64 => 13,  60 => 12,  56 => 11,  52 => 10,  48 => 9,  44 => 8,  40 => 7,  36 => 6,  31 => 3,  28 => 2,);
     }
 }

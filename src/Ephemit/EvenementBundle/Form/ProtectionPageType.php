@@ -12,21 +12,21 @@ class ProtectionPageType extends AbstractType
         $builder
             ->add('publicpass', 'password', array(
                 'required'=> true,
-                'label'=> 'Mot de passe'
+                'attr'=>array('placeholder'=>'Mot de passe')
             ))
         ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        /*$resolver->setDefaults(array(
             'data_class' => 'Ephemit\EvenementBundle\Entity\Evenement',
-        ));
+        ));*/
     }
 
     public function getName()
     {
-        return 'ephemit_evenement_creer';
+        return 'ephemit_protection_page';
     }
 }
 ?>

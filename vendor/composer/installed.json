@@ -3174,5 +3174,73 @@
             "sonata",
             "user"
         ]
+    },
+    {
+        "name": "oneup/uploader-bundle",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
+        "target-dir": "Oneup/UploaderBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/1up-lab/OneupUploaderBundle.git",
+            "reference": "0a0bb1e9cb0d44cd6ea4dd9dfc6fe619e226adfe"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/0a0bb1e9cb0d44cd6ea4dd9dfc6fe619e226adfe",
+            "reference": "0a0bb1e9cb0d44cd6ea4dd9dfc6fe619e226adfe",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/finder": ">=2.2.0",
+            "symfony/framework-bundle": ">=2.2"
+        },
+        "require-dev": {
+            "amazonwebservices/aws-sdk-for-php": "1.5.*",
+            "knplabs/gaufrette": "0.2.*@dev",
+            "phpunit/phpunit": "3.7.*",
+            "sensio/framework-extra-bundle": "2.*",
+            "symfony/browser-kit": "2.*",
+            "symfony/class-loader": "2.*",
+            "symfony/security-bundle": "2.*"
+        },
+        "suggest": {
+            "knplabs/knp-gaufrette-bundle": "0.1.*"
+        },
+        "time": "2013-11-06 18:09:25",
+        "type": "symfony-bundle",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Oneup\\UploaderBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jim Schmid",
+                "email": "js@1up.io",
+                "homepage": "http://1up.io",
+                "role": "Developer"
+            }
+        ],
+        "description": "Handles multi file uploads in Symfony2. Features included: Chunked upload, Orphans management, Gaufrette support.",
+        "homepage": "http://1up.io",
+        "keywords": [
+            "FancyUpload",
+            "FineUploader",
+            "MooUpload",
+            "Uploadify",
+            "YUI3 Uploader",
+            "blueimp",
+            "dropzone",
+            "fileupload",
+            "jQuery File Uploader",
+            "plupload",
+            "upload"
+        ]
     }
 ]

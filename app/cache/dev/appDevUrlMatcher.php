@@ -156,11 +156,11 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'ephemit_evenement_supprimer')), array (  '_controller' => 'Ephemit\\EvenementBundle\\Controller\\EvenementController::supprimerAction',));
             }
 
-            // ephemit_evenement_modifier
-            if (0 === strpos($pathinfo, '/mes-pages/modifier') && preg_match('#^/mes\\-pages/modifier/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'ephemit_evenement_modifier')), array (  '_controller' => 'Ephemit\\EvenementBundle\\Controller\\EvenementController::modifierAction',));
-            }
+        }
 
+        // ephemit_evenement_modifier
+        if (0 === strpos($pathinfo, '/page/admin/modifier') && preg_match('#^/page/admin/modifier/(?P<cle>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'ephemit_evenement_modifier')), array (  '_controller' => 'Ephemit\\EvenementBundle\\Controller\\EvenementController::modifierAction',));
         }
 
         // ephemit_favoris_ajouter
@@ -168,9 +168,30 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'ephemit_favoris_ajouter')), array (  '_controller' => 'Ephemit\\EvenementBundle\\Controller\\EvenementController::ajouterFavorisAction',));
         }
 
-        // ephemit_fiche_evenement
-        if (0 === strpos($pathinfo, '/page') && preg_match('#^/page/(?P<cle>[^/]++)$#s', $pathinfo, $matches)) {
-            return $this->mergeDefaults(array_replace($matches, array('_route' => 'ephemit_fiche_evenement')), array (  '_controller' => 'Ephemit\\EvenementBundle\\Controller\\EvenementController::pageAction',));
+        if (0 === strpos($pathinfo, '/page')) {
+            // ephemit_fiche_evenement
+            if (preg_match('#^/page/(?P<cle>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'ephemit_fiche_evenement')), array (  '_controller' => 'Ephemit\\EvenementBundle\\Controller\\EvenementController::pageAction',));
+            }
+
+            // ephemit_gerer_evenement
+            if (0 === strpos($pathinfo, '/page/gerer') && preg_match('#^/page/gerer/(?P<cle>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'ephemit_gerer_evenement')), array (  '_controller' => 'Ephemit\\EvenementBundle\\Controller\\EvenementController::gererAction',));
+            }
+
+            if (0 === strpos($pathinfo, '/page/a')) {
+                // ephemit_page_admin
+                if (0 === strpos($pathinfo, '/page/admin') && preg_match('#^/page/admin/(?P<cle>[^/]++)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'ephemit_page_admin')), array (  '_controller' => 'Ephemit\\EvenementBundle\\Controller\\EvenementController::adminPageAction',));
+                }
+
+                // ephemit_page_apercu
+                if (0 === strpos($pathinfo, '/page/apercu') && preg_match('#^/page/apercu/(?P<cle>[^/]++)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'ephemit_page_apercu')), array (  '_controller' => 'Ephemit\\EvenementBundle\\Controller\\EvenementController::apercuAction',));
+                }
+
+            }
+
         }
 
         // ephemit_site_homepage
@@ -500,6 +521,17 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             }
 
         }
+
+        // _uploader_upload_gallery
+        if ($pathinfo === '/_uploader/gallery/upload') {
+            if ($this->context->getMethod() != 'POST') {
+                $allow[] = 'POST';
+                goto not__uploader_upload_gallery;
+            }
+
+            return array (  '_controller' => 'oneup_uploader.controller.gallery:upload',  '_format' => 'json',  '_route' => '_uploader_upload_gallery',);
+        }
+        not__uploader_upload_gallery:
 
         // homepage
         if (rtrim($pathinfo, '/') === '') {

@@ -1,5 +1,62 @@
-<h1>Modifier un evenement</h1>
-<form action="{{path('ephemit_evenement_modifier', {'id':event.id})}}" method="post" id="formEvent">
-    {{form_rest(formEvent)}}
-    <input type="submit" value="Envoyer">
- </form>
+{% extends '::base.html.twig' %}
+{% block body %}
+    <h1>Modifier les informations de la page</h1>
+    <div id="resultat"></div>
+    <form action="" method="post" id="formEvent">
+            {{form_label(formEvent.nom)}}<br>
+            {{form_widget(formEvent.nom)}}<br>
+            {{form_label(formEvent.date)}}<br>
+            {{form_widget(formEvent.date)}}<br>
+            {{form_label(formEvent.description)}}<br>
+            {{form_widget(formEvent.description)}}<br>
+            {{form_label(formEvent.lieu)}}<br>
+            {{form_widget(formEvent.lieu)}}<br>
+            {{form_label(formEvent.public)}}<br>
+            {{form_widget(formEvent.public)}}<br>
+            {{form_label(formEvent.publicpass)}}<br>
+            {{form_widget(formEvent.publicpass)}}<br>
+            {{form_label(formEvent.adminpass1)}}<br>
+            {{form_widget(formEvent.adminpass1)}}<br>
+            {{form_label(formEvent.adminpass2)}}<br>
+            {{form_widget(formEvent.adminpass2)}}<br>
+            {{form_label(formEvent.facebook)}}<br>
+            {{form_widget(formEvent.facebook)}}<br>
+            {{form_label(formEvent.twitter)}}<br>
+            {{form_widget(formEvent.twitter)}}<br>
+            {{form_rest(formEvent)}}
+            <a href="#" id="submitFormEvent">Envoyer</a>
+        </form>
+
+    <script>
+
+        $('#submitFormEvent').click(function(){
+            if($('#ephemit_evenement_creer_adminpass1').val() == ''){
+                $('#ephemit_evenement_creer_adminpass1').val("{{event.adminpass1}}");
+            }
+            if($('#ephemit_evenement_creer_adminpass2').val() == ''){
+                $('#ephemit_evenement_creer_adminpass2').val("{{event.adminpass2}}");
+            }
+            $('#formEvent').submit();
+            return false;
+        });
+
+        $('#formEvent').submit(function()
+        {
+            
+            $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: Routing.generate("ephemit_evenement_modifier", {"cle":"{{event.cle}}"}),
+                    data:$('#formEvent').serialize(),
+                    success: function(data)
+                    {
+                        $('#formEvent').slideUp();
+                        $('#resultat').html('Votre evenement a bien ete modifie! Vous allez etre redirige');
+                        $('#resultat').slideDown();
+                        setTimeout(function(){ window.location = Routing.generate("ephemit_page_admin", {"cle":"{{event.cle}}"}); }, 3000);
+                    }
+            });
+            return false;
+        });
+    </script>
+{% endblock %}

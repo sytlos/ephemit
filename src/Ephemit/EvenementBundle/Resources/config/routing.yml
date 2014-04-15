@@ -12,7 +12,7 @@ ephemit_evenement_supprimer:
     options:
         expose: true
 ephemit_evenement_modifier:
-    pattern:  /mes-pages/modifier/{id}
+    pattern:  /page/admin/modifier/{cle}
     defaults: { _controller: EphemitEvenementBundle:Evenement:modifier }
     options:
         expose: true
@@ -24,5 +24,18 @@ ephemit_favoris_ajouter:
 ephemit_fiche_evenement:
     pattern:  /page/{cle}
     defaults: { _controller: EphemitEvenementBundle:Evenement:page }
+    options:
+        expose: true
+ephemit_gerer_evenement:
+    pattern:  /page/gerer/{cle}
+    defaults: { _controller: EphemitEvenementBundle:Evenement:gerer }
+ephemit_page_admin:
+    pattern:  /page/admin/{cle}
+    defaults: { _controller: EphemitEvenementBundle:Evenement:adminPage }
+    options:
+        expose: true
+ephemit_page_apercu:
+    pattern:  /page/apercu/{cle}
+    defaults: { _controller: EphemitEvenementBundle:Evenement:apercu }
     options:
         expose: true

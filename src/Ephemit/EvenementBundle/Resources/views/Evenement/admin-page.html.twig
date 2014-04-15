@@ -1,0 +1,8 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <h1>Dashboard</h1>
+    <a href="{{path('ephemit_evenement_modifier', {'cle':page.cle})}}">Modifier les informations de la page</a><br>
+    <a href="{{path('ephemit_page_apercu', {'cle':page.cle})}}" class="colorbox">Apercu de ma page</a>
+    
+    
+{% endblock %}

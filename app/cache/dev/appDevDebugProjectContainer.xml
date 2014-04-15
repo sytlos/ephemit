@@ -30,6 +30,7 @@
       <parameter key="EphemitEvenementBundle">Ephemit\EvenementBundle\EphemitEvenementBundle</parameter>
       <parameter key="FOSJsRoutingBundle">FOS\JsRoutingBundle\FOSJsRoutingBundle</parameter>
       <parameter key="EphemitCalendrierBundle">Ephemit\CalendrierBundle\EphemitCalendrierBundle</parameter>
+      <parameter key="OneupUploaderBundle">Oneup\UploaderBundle\OneupUploaderBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
       <parameter key="SensioGeneratorBundle">Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle</parameter>
@@ -783,6 +784,50 @@
     <parameter key="fos_js_routing.controller.class">FOS\JsRoutingBundle\Controller\Controller</parameter>
     <parameter key="fos_js_routing.cache_control" type="collection">
       <parameter key="enabled">false</parameter>
+    </parameter>
+    <parameter key="oneup_uploader.chunks.manager.class">Oneup\UploaderBundle\Uploader\Chunk\ChunkManager</parameter>
+    <parameter key="oneup_uploader.chunks_storage.gaufrette.class">Oneup\UploaderBundle\Uploader\Chunk\Storage\GaufretteStorage</parameter>
+    <parameter key="oneup_uploader.chunks_storage.filesystem.class">Oneup\UploaderBundle\Uploader\Chunk\Storage\FilesystemStorage</parameter>
+    <parameter key="oneup_uploader.namer.uniqid.class">Oneup\UploaderBundle\Uploader\Naming\UniqidNamer</parameter>
+    <parameter key="oneup_uploader.routing.loader.class">Oneup\UploaderBundle\Routing\RouteLoader</parameter>
+    <parameter key="oneup_uploader.storage.gaufrette.class">Oneup\UploaderBundle\Uploader\Storage\GaufretteStorage</parameter>
+    <parameter key="oneup_uploader.storage.filesystem.class">Oneup\UploaderBundle\Uploader\Storage\FilesystemStorage</parameter>
+    <parameter key="oneup_uploader.orphanage.class">Oneup\UploaderBundle\Uploader\Storage\FilesystemOrphanageStorage</parameter>
+    <parameter key="oneup_uploader.orphanage.manager.class">Oneup\UploaderBundle\Uploader\Orphanage\OrphanageManager</parameter>
+    <parameter key="oneup_uploader.controller.fineuploader.class">Oneup\UploaderBundle\Controller\FineUploaderController</parameter>
+    <parameter key="oneup_uploader.controller.blueimp.class">Oneup\UploaderBundle\Controller\BlueimpController</parameter>
+    <parameter key="oneup_uploader.controller.uploadify.class">Oneup\UploaderBundle\Controller\UploadifyController</parameter>
+    <parameter key="oneup_uploader.controller.yui3.class">Oneup\UploaderBundle\Controller\YUI3Controller</parameter>
+    <parameter key="oneup_uploader.controller.fancyupload.class">Oneup\UploaderBundle\Controller\FancyUploadController</parameter>
+    <parameter key="oneup_uploader.controller.mooupload.class">Oneup\UploaderBundle\Controller\MooUploadController</parameter>
+    <parameter key="oneup_uploader.controller.plupload.class">Oneup\UploaderBundle\Controller\PluploadController</parameter>
+    <parameter key="oneup_uploader.controller.dropzone.class">Oneup\UploaderBundle\Controller\DropzoneController</parameter>
+    <parameter key="oneup_uploader.error_handler.noop.class">Oneup\UploaderBundle\Uploader\ErrorHandler\NoopErrorHandler</parameter>
+    <parameter key="oneup_uploader.error_handler.blueimp.class">Oneup\UploaderBundle\Uploader\ErrorHandler\BlueimpErrorHandler</parameter>
+    <parameter key="oneup_uploader.chunks" type="collection">
+      <parameter key="maxage">604800</parameter>
+      <parameter key="storage" type="collection">
+        <parameter key="type">filesystem</parameter>
+        <parameter key="filesystem">null</parameter>
+        <parameter key="directory">/var/www/INSSET/ephemit/app/cache/dev/uploader/chunks</parameter>
+        <parameter key="stream_wrapper">null</parameter>
+        <parameter key="sync_buffer_size">100K</parameter>
+        <parameter key="prefix">chunks</parameter>
+      </parameter>
+      <parameter key="load_distribution">true</parameter>
+    </parameter>
+    <parameter key="oneup_uploader.orphanage" type="collection">
+      <parameter key="maxage">604800</parameter>
+      <parameter key="directory">/var/www/INSSET/ephemit/app/cache/dev/uploader/orphanage</parameter>
+    </parameter>
+    <parameter key="oneup_uploader.controllers" type="collection">
+      <parameter key="gallery" type="collection">
+        <parameter>oneup_uploader.controller.gallery</parameter>
+        <parameter type="collection">
+          <parameter key="enable_progress">false</parameter>
+          <parameter key="enable_cancelation">false</parameter>
+        </parameter>
+      </parameter>
     </parameter>
     <parameter key="web_profiler.controller.profiler.class">Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController</parameter>
     <parameter key="web_profiler.controller.router.class">Symfony\Bundle\WebProfilerBundle\Controller\RouterController</parameter>
@@ -2500,6 +2545,12 @@
         <argument>fr</argument>
         <argument>messages</argument>
       </call>
+      <call method="addResource">
+        <argument>yml</argument>
+        <argument>/var/www/INSSET/ephemit/vendor/oneup/uploader-bundle/Oneup/UploaderBundle/Resources/translations/OneupUploaderBundle.en.yml</argument>
+        <argument>en</argument>
+        <argument>OneupUploaderBundle</argument>
+      </call>
     </service>
     <service id="translation.loader.php" class="Symfony\Component\Translation\Loader\PhpFileLoader">
       <tag name="translation.loader" alias="php"/>
@@ -2723,6 +2774,30 @@
         <argument type="collection">
           <argument>sonata.block.cache.handler.default</argument>
           <argument>onKernelResponse</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>oneup_uploader.validation</argument>
+        <argument type="collection">
+          <argument>oneup_uploader.validation_listener.max_size</argument>
+          <argument>onValidate</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>oneup_uploader.validation</argument>
+        <argument type="collection">
+          <argument>oneup_uploader.validation_listener.allowed_mimetype</argument>
+          <argument>onValidate</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>oneup_uploader.validation</argument>
+        <argument type="collection">
+          <argument>oneup_uploader.validation_listener.disallowed_mimetype</argument>
+          <argument>onValidate</argument>
         </argument>
         <argument>0</argument>
       </call>
@@ -3445,6 +3520,9 @@
           <call method="addLoader">
             <argument type="service" id="sonata.admin.route_loader"/>
           </call>
+          <call method="addLoader">
+            <argument type="service" id="oneup_uploader.routing.loader"/>
+          </call>
         </service>
       </argument>
     </service>
@@ -3482,7 +3560,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>534bdbeb0df25</argument>
+            <argument>534d478d135d1</argument>
           </service>
         </argument>
         <argument type="service">
@@ -3496,7 +3574,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>534bdbeb0df25</argument>
+            <argument>534d478d135d1</argument>
           </service>
         </argument>
       </argument>
@@ -3835,7 +3913,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>534bdbeb0df25</argument>
+            <argument>534d478d135d1</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
           </service>
         </argument>
@@ -3946,7 +4024,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>534bdbeb0df25</argument>
+            <argument>534d478d135d1</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
           </service>
         </argument>
@@ -4155,6 +4233,9 @@
             <argument type="service" id="sonata.block.templating.helper"/>
           </service>
         </argument>
+      </call>
+      <call method="addExtension">
+        <argument type="service" id="oneup_uploader.twig.extension.uploader"/>
       </call>
       <call method="addGlobal">
         <argument>app</argument>
@@ -5659,6 +5740,7 @@
         <argument key="EphemitEvenementBundle">Ephemit\EvenementBundle\EphemitEvenementBundle</argument>
         <argument key="FOSJsRoutingBundle">FOS\JsRoutingBundle\FOSJsRoutingBundle</argument>
         <argument key="EphemitCalendrierBundle">Ephemit\CalendrierBundle\EphemitCalendrierBundle</argument>
+        <argument key="OneupUploaderBundle">Oneup\UploaderBundle\OneupUploaderBundle</argument>
         <argument key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</argument>
         <argument key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</argument>
         <argument key="SensioGeneratorBundle">Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle</argument>
@@ -5683,6 +5765,95 @@
           <service class="Symfony\Component\Serializer\Encoder\JsonEncoder" public="false"/>
         </argument>
       </argument>
+    </service>
+    <service id="oneup_uploader.chunk_manager" class="Oneup\UploaderBundle\Uploader\Chunk\ChunkManager">
+      <argument type="collection">
+        <argument key="maxage">604800</argument>
+        <argument key="storage" type="collection">
+          <argument key="type">filesystem</argument>
+          <argument key="filesystem">null</argument>
+          <argument key="directory">/var/www/INSSET/ephemit/app/cache/dev/uploader/chunks</argument>
+          <argument key="stream_wrapper">null</argument>
+          <argument key="sync_buffer_size">100K</argument>
+          <argument key="prefix">chunks</argument>
+        </argument>
+        <argument key="load_distribution">true</argument>
+      </argument>
+      <argument type="service" id="oneup_uploader.chunks_storage"/>
+    </service>
+    <service id="oneup_uploader.orphanage_manager" class="Oneup\UploaderBundle\Uploader\Orphanage\OrphanageManager">
+      <argument type="service" id="service_container"/>
+      <argument type="collection">
+        <argument key="maxage">604800</argument>
+        <argument key="directory">/var/www/INSSET/ephemit/app/cache/dev/uploader/orphanage</argument>
+      </argument>
+    </service>
+    <service id="oneup_uploader.namer.uniqid" class="Oneup\UploaderBundle\Uploader\Naming\UniqidNamer"/>
+    <service id="oneup_uploader.routing.loader" class="Oneup\UploaderBundle\Routing\RouteLoader">
+      <tag name="routing.loader"/>
+      <argument type="collection">
+        <argument key="gallery" type="collection">
+          <argument>oneup_uploader.controller.gallery</argument>
+          <argument type="collection">
+            <argument key="enable_progress">false</argument>
+            <argument key="enable_cancelation">false</argument>
+          </argument>
+        </argument>
+      </argument>
+    </service>
+    <service id="oneup_uploader.templating.uploader_helper" class="Oneup\UploaderBundle\Templating\Helper\UploaderHelper">
+      <tag name="templating.helper" alias="oneup_uploader"/>
+      <argument type="service" id="router"/>
+    </service>
+    <service id="oneup_uploader.validation_listener.max_size" class="Oneup\UploaderBundle\EventListener\MaxSizeValidationListener">
+      <tag name="kernel.event_listener" event="oneup_uploader.validation" method="onValidate"/>
+    </service>
+    <service id="oneup_uploader.validation_listener.allowed_mimetype" class="Oneup\UploaderBundle\EventListener\AllowedMimetypeValidationListener">
+      <tag name="kernel.event_listener" event="oneup_uploader.validation" method="onValidate"/>
+    </service>
+    <service id="oneup_uploader.validation_listener.disallowed_mimetype" class="Oneup\UploaderBundle\EventListener\DisallowedMimetypeValidationListener">
+      <tag name="kernel.event_listener" event="oneup_uploader.validation" method="onValidate"/>
+    </service>
+    <service id="oneup_uploader.error_handler.uploadify" class="Oneup\UploaderBundle\Uploader\ErrorHandler\NoopErrorHandler" public="false"/>
+    <service id="oneup_uploader.twig.extension.uploader" class="Oneup\UploaderBundle\Twig\Extension\UploaderExtension">
+      <tag name="twig.extension"/>
+      <argument type="service" id="oneup_uploader.templating.uploader_helper"/>
+    </service>
+    <service id="oneup_uploader.chunks_storage" class="Oneup\UploaderBundle\Uploader\Chunk\Storage\FilesystemStorage">
+      <argument>/var/www/INSSET/ephemit/app/cache/dev/uploader/chunks</argument>
+    </service>
+    <service id="oneup_uploader.storage.gallery" class="Oneup\UploaderBundle\Uploader\Storage\FilesystemStorage">
+      <argument>/var/www/INSSET/ephemit/app/../web/uploads/gallery</argument>
+    </service>
+    <service id="oneup_uploader.controller.gallery" class="Oneup\UploaderBundle\Controller\UploadifyController" scope="request">
+      <tag name="oneup_uploader.routable" type="gallery"/>
+      <argument type="service" id="service_container"/>
+      <argument type="service" id="oneup_uploader.storage.gallery"/>
+      <argument type="service" id="oneup_uploader.error_handler.uploadify"/>
+      <argument type="collection">
+        <argument key="frontend">uploadify</argument>
+        <argument key="custom_frontend" type="collection">
+          <argument key="name">null</argument>
+          <argument key="class">null</argument>
+        </argument>
+        <argument key="storage" type="collection">
+          <argument key="service">null</argument>
+          <argument key="type">filesystem</argument>
+          <argument key="filesystem">null</argument>
+          <argument key="directory">/var/www/INSSET/ephemit/app/../web/uploads/gallery</argument>
+          <argument key="stream_wrapper">null</argument>
+          <argument key="sync_buffer_size">100K</argument>
+        </argument>
+        <argument key="allowed_mimetypes" type="collection"/>
+        <argument key="disallowed_mimetypes" type="collection"/>
+        <argument key="error_handler">null</argument>
+        <argument key="max_size">9223372036854775807</argument>
+        <argument key="use_orphanage">false</argument>
+        <argument key="enable_progress">false</argument>
+        <argument key="enable_cancelation">false</argument>
+        <argument key="namer">oneup_uploader.namer.uniqid</argument>
+      </argument>
+      <argument>gallery</argument>
     </service>
     <service id="web_profiler.controller.profiler" class="Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController">
       <argument type="service" id="router" on-invalid="null"/>
@@ -5907,6 +6078,7 @@
           <argument key="security">templating.helper.security</argument>
           <argument key="assetic">assetic.helper.dynamic</argument>
           <argument key="sonata_block">sonata.block.templating.helper</argument>
+          <argument key="oneup_uploader">oneup_uploader.templating.uploader_helper</argument>
         </argument>
       </call>
     </service>

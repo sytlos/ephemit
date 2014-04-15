@@ -3,6 +3,7 @@
 namespace Ephemit\EvenementBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Evenement
@@ -29,9 +30,9 @@ class Evenement
     private $nom;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="string")
      */
     private $date;
 
@@ -90,6 +91,25 @@ class Evenement
      * @ORM\Column(name="cle", type="string", length=255)
      */
     private $cle;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook", type="string", length=255, nullable=true)
+     */
+    private $facebook;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="twitter", type="string", length=255, nullable=true)
+     */
+    private $twitter;
+    
+    /**
+     *@ORM\OneToMany(targetEntity="Document", mappedBy="event", cascade={"persist"})
+     */
+    private $documents;
 
     /**
      * Get id
@@ -124,28 +144,7 @@ class Evenement
         return $this->nom;
     }
 
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     * @return Evenement
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime 
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
+    
 
     /**
      * Set dateCreation
@@ -330,5 +329,114 @@ class Evenement
     public function getCle()
     {
         return $this->cle;
+    }
+
+    /**
+     * Set date
+     *
+     * @param string $date
+     * @return Evenement
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return string 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set facebook
+     *
+     * @param string $facebook
+     * @return Evenement
+     */
+    public function setFacebook($facebook)
+    {
+        $this->facebook = $facebook;
+
+        return $this;
+    }
+
+    /**
+     * Get facebook
+     *
+     * @return string 
+     */
+    public function getFacebook()
+    {
+        return $this->facebook;
+    }
+
+    /**
+     * Set twitter
+     *
+     * @param string $twitter
+     * @return Evenement
+     */
+    public function setTwitter($twitter)
+    {
+        $this->twitter = $twitter;
+
+        return $this;
+    }
+
+    /**
+     * Get twitter
+     *
+     * @return string 
+     */
+    public function getTwitter()
+    {
+        return $this->twitter;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add documents
+     *
+     * @param \Ephemit\EvenementBundle\Entity\Document $documents
+     * @return Evenement
+     */
+    public function addDocument(\Ephemit\EvenementBundle\Entity\Document $documents)
+    {
+        $this->documents[] = $documents;
+
+        return $this;
+    }
+
+    /**
+     * Remove documents
+     *
+     * @param \Ephemit\EvenementBundle\Entity\Document $documents
+     */
+    public function removeDocument(\Ephemit\EvenementBundle\Entity\Document $documents)
+    {
+        $this->documents->removeElement($documents);
+    }
+
+    /**
+     * Get documents
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
     }
 }

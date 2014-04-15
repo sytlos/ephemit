@@ -139,4 +139,7 @@ sonata_doctrine_orm_admin:
                 bigint:     SonataAdminBundle:CRUD:base_show_field.html.twig
                 integer:    SonataAdminBundle:CRUD:base_show_field.html.twig
                 decimal:    SonataAdminBundle:CRUD:base_show_field.html.twig
-        
+oneup_uploader:
+    mappings:
+        gallery:
+            frontend: uploadify

@@ -4,6 +4,7 @@ namespace Ephemit\EvenementBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Ephemit\EvenementBundle\Form\DocumentType;
 
 class CreerEvenementType extends AbstractType
 {
@@ -28,6 +29,14 @@ class CreerEvenementType extends AbstractType
                 'label'=>'Ou cela se produira-t-il ?',
                 'attr'=>array('class'=>'citypicker')
             ))
+            ->add('facebook', 'text', array(
+                'required'=>false,
+                'label'=>'Facebook'
+            ))
+            ->add('twitter', 'text', array(
+                'required'=>false,
+                'label'=>'Twitter'
+            ))
             ->add('publicpass', 'password', array(
                 'required'=>false,
                 'label'=>'Mot de passe (optionnel)'
@@ -47,6 +56,7 @@ class CreerEvenementType extends AbstractType
                 'attr'=>array('class'=>'public-choice'),
                 'data'=>'Oui'
             ))
+            ->add('documents', 'collection', array('type'=>new DocumentType(), 'allow_add'=>true, 'allow_delete'=>true, 'label'=>'Pieces jointes'))
         ;
     }
 

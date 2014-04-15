@@ -5,9 +5,12 @@ namespace Ephemit\EvenementBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ephemit\EvenementBundle\Form\CreerEvenementType;
 use Ephemit\EvenementBundle\Entity\Evenement;
+use Ephemit\EvenementBundle\Entity\Document;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Ephemit\EvenementBundle\Form\ProtectionPageType;
+use Ephemit\EvenementBundle\Form\ProtectionPageAdminType;
 
 class EvenementController extends Controller
 {
@@ -23,6 +26,9 @@ class EvenementController extends Controller
         $formEvent = $this->createForm(new CreerEvenementType(), $event);
         
         $request = $this->get('request');
+        
+        $helper = $this->container->get('oneup_uploader.templating.uploader_helper');
+        $endpoint = $helper->endpoint('gallery');
 
         if ($request->getMethod() == 'POST') {
             $formEvent->bind($request);
@@ -30,23 +36,29 @@ class EvenementController extends Controller
                 $today = new \DateTime('now');
                 $post = $request->request->get('ephemit_evenement_creer');
                 
-                $postDate = $post['date'];
-                $date = new \DateTime($postDate);
                 
                 $publicpass = sha1($post['publicpass']);
                 $adminpass1 = sha1($post['adminpass1']);
                 $adminpass2 = sha1($post['adminpass2']);
                 
+                /*documents*/
+                foreach($post['documents'] as $doc){
+                    $doc = new Document();
+                    $doc->setEvent($event);
+                    $doc->setDate($today);
+                    
+                    $em->persist($doc);
+                }
+                
                 $time = time();
                 $rand = rand(0, 100);
                 $cle = $time*$rand;
                 
-                $event->setCle(md5($rand));
+                $event->setCle(md5($cle));
                 $event->setPublicpass($publicpass);
                 $event->setAdminpass1($adminpass1);
                 $event->setAdminpass2($adminpass2);
                 $event->setDateCreation($today);
-                $event->setDate($date);
                 $em->persist($event);
                 $em->flush();
                 
@@ -111,14 +123,10 @@ class EvenementController extends Controller
         ));
     }
     
-    public function modifierAction($id){
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user) || !$user instanceof UserInterface)
-        {
-                throw new AccessDeniedException('This user does not have access to this section.');
-        }
+    public function modifierAction($cle){
+        
         $repoEvent = $this->getDoctrine()->getRepository('EphemitEvenementBundle:Evenement');
-        $event = $repoEvent->findOneById($id);
+        $event = $repoEvent->findOneByCle($cle);
         
         $formEvent = $this->createForm(new CreerEvenementType(), $event);
         $request = $this->get('request');
@@ -128,6 +136,13 @@ class EvenementController extends Controller
             if($formEvent->isValid()){
                 $em->persist($event);
                 $em->flush();
+                
+                $tabRetour= array();
+                $tabRetour['code'] = 0;
+
+                $reponse = new Response(json_encode($tabRetour));
+                $reponse->headers->set('Content-Type', 'application/json');
+                return $reponse;
             }
         }
         return $this->render('EphemitEvenementBundle:Evenement:modifier-evenement.html.twig', array(
@@ -160,13 +175,79 @@ class EvenementController extends Controller
     public function pageAction($cle){
         $repoEvent = $this->getDoctrine()->getRepository('EphemitEvenementBundle:Evenement');
         $page = $repoEvent->findOneByCle($cle);
+        $formPass = $this->createForm(new ProtectionPageType());
         
         if($page->getPublicpass() != null){
             $protect = true;
+            
+            $request = $this->get('request');
+            
+            if ($request->getMethod() == 'POST') {
+                $formPass->bind($request);
+                if($formPass->isValid()){
+                    $post = $request->request->get('ephemit_protection_page');
+                    $pass = $post['publicpass'];
+                    if($page->getPublicpass() == sha1($pass)){
+                        $protect = false;
+                    }
+                }
+            }
         }
         else{
             $protect = false;
         }
-        return $this->render('EphemitEvenementBundle:Evenement:page.html.twig', array('page'=>$page, 'protect'=>$protect));
+        return $this->render('EphemitEvenementBundle:Evenement:page.html.twig', array(
+            'page'=>$page, 
+            'protect'=>$protect,
+            'formPass'=>$formPass->createView()
+        ));
+    }
+    
+    public function gererAction($cle){
+        $repoEvent = $this->getDoctrine()->getRepository('EphemitEvenementBundle:Evenement');
+        $page = $repoEvent->findOneByCle($cle);
+        $formPassAdmin = $this->createForm(new ProtectionPageAdminType());
+        
+        $request = $this->get('request');
+        $valid = false;
+            
+        if ($request->getMethod() == 'POST') {
+            $formPassAdmin->bind($request);
+            if($formPassAdmin->isValid()){
+                $post = $request->request->get('ephemit_protection_page_admin');
+                $adminpass1 = $post['adminpass1'];
+                $adminpass2 = $post['adminpass2'];
+                if(($page->getAdminPass1() == sha1($adminpass1)) && ($page->getAdminPass2() == sha1($adminpass2))){
+                    $valid = true;
+                }
+                else{
+                    $valid = false;
+                }
+            }
+        }
+        return $this->render('EphemitEvenementBundle:Evenement:gerer.html.twig', array(
+            'page'=>$page,
+            'formPassAdmin'=>$formPassAdmin->createView(),
+            'valid'=>$valid
+        ));
+    }
+    
+    public function adminPageAction($cle){
+        $repoEvent = $this->getDoctrine()->getRepository('EphemitEvenementBundle:Evenement');
+        $page = $repoEvent->findOneByCle($cle);
+        
+        
+        return $this->render('EphemitEvenementBundle:Evenement:admin-page.html.twig', array(
+            'page'=>$page
+        ));
+    }
+    
+    public function apercuAction($cle){
+        $repoEvent = $this->getDoctrine()->getRepository('EphemitEvenementBundle:Evenement');
+        $page = $repoEvent->findOneByCle($cle);
+        
+        return $this->render('EphemitEvenementBundle:Evenement:apercu-page.html.twig', array(
+            'page'=>$page
+        ));
     }
 }

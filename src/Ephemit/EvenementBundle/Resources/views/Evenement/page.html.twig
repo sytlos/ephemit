@@ -2,12 +2,16 @@
 {% block body %}
     {% if protect %}
         <h1>cette page est protegee</h1>
-        
+        <form method="post" action="{{path('ephemit_fiche_evenement', {'cle':page.cle})}}">
+            <div>{{form_widget(formPass.publicpass)}}</div>
+            {{form_rest(formPass)}}
+        </form>
     {% else %}
+        <a href="{{path('ephemit_gerer_evenement', {'cle':page.cle})}}">Gerer la page</a>
         <h1>{{page.nom}}</h1>
 
         <div>{{page.description}}</div>
         <div>{{page.lieu}}</div>
-        <div>{{page.date|date('d/m/Y')}}</div>
+        <div>{{page.date}}</div>
     {% endif %}
 {% endblock %}

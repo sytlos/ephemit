@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new Ephemit\EvenementBundle\EphemitEvenementBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Ephemit\CalendrierBundle\EphemitCalendrierBundle(),
+            new Oneup\UploaderBundle\OneupUploaderBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

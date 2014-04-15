@@ -10,7 +10,7 @@
             {% for e in events %}
                 <tr>
                     <td><a href="{{path('ephemit_fiche_evenement', {'cle':e.cle})}}">{{e.nom}}</a></td>
-                    <td>{{e.date|date('d/m/Y')}}</td>
+                    <td>{{e.date}}</td>
                     <td>{{e.lieu}}</td>
                     <td>{{e.description}}</td>
                 </tr>

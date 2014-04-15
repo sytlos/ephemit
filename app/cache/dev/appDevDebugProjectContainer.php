@@ -164,6 +164,19 @@ class appDevDebugProjectContainer extends Container
             'monolog.logger.router' => 'getMonolog_Logger_RouterService',
             'monolog.logger.security' => 'getMonolog_Logger_SecurityService',
             'monolog.logger.templating' => 'getMonolog_Logger_TemplatingService',
+            'oneup_uploader.chunk_manager' => 'getOneupUploader_ChunkManagerService',
+            'oneup_uploader.chunks_storage' => 'getOneupUploader_ChunksStorageService',
+            'oneup_uploader.controller.gallery' => 'getOneupUploader_Controller_GalleryService',
+            'oneup_uploader.error_handler.uploadify' => 'getOneupUploader_ErrorHandler_UploadifyService',
+            'oneup_uploader.namer.uniqid' => 'getOneupUploader_Namer_UniqidService',
+            'oneup_uploader.orphanage_manager' => 'getOneupUploader_OrphanageManagerService',
+            'oneup_uploader.routing.loader' => 'getOneupUploader_Routing_LoaderService',
+            'oneup_uploader.storage.gallery' => 'getOneupUploader_Storage_GalleryService',
+            'oneup_uploader.templating.uploader_helper' => 'getOneupUploader_Templating_UploaderHelperService',
+            'oneup_uploader.twig.extension.uploader' => 'getOneupUploader_Twig_Extension_UploaderService',
+            'oneup_uploader.validation_listener.allowed_mimetype' => 'getOneupUploader_ValidationListener_AllowedMimetypeService',
+            'oneup_uploader.validation_listener.disallowed_mimetype' => 'getOneupUploader_ValidationListener_DisallowedMimetypeService',
+            'oneup_uploader.validation_listener.max_size' => 'getOneupUploader_ValidationListener_MaxSizeService',
             'profiler' => 'getProfilerService',
             'profiler_listener' => 'getProfilerListenerService',
             'property_accessor' => 'getPropertyAccessorService',
@@ -648,6 +661,9 @@ class appDevDebugProjectContainer extends Container
         $instance->addListenerService('security.interactive_login', array(0 => 'fos_user.security.interactive_login_listener', 1 => 'onSecurityInteractiveLogin'), 0);
         $instance->addListenerService('kernel.request', array(0 => 'knp_menu.listener.voters', 1 => 'onKernelRequest'), 0);
         $instance->addListenerService('kernel.response', array(0 => 'sonata.block.cache.handler.default', 1 => 'onKernelResponse'), 0);
+        $instance->addListenerService('oneup_uploader.validation', array(0 => 'oneup_uploader.validation_listener.max_size', 1 => 'onValidate'), 0);
+        $instance->addListenerService('oneup_uploader.validation', array(0 => 'oneup_uploader.validation_listener.allowed_mimetype', 1 => 'onValidate'), 0);
+        $instance->addListenerService('oneup_uploader.validation', array(0 => 'oneup_uploader.validation_listener.disallowed_mimetype', 1 => 'onValidate'), 0);
         $instance->addSubscriberService('response_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener');
         $instance->addSubscriberService('streamed_response_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\StreamedResponseListener');
         $instance->addSubscriberService('locale_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\LocaleListener');
@@ -698,7 +714,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['debug.templating.engine.php'] = $instance = new \Symfony\Bundle\FrameworkBundle\Templating\TimedPhpEngine($this->get('templating.name_parser'), $this, $this->get('templating.loader'), $this->get('debug.stopwatch'), $this->get('templating.globals'));
 
-        $instance->setHelpers(array('slots' => 'templating.helper.slots', 'assets' => 'templating.helper.assets', 'request' => 'templating.helper.request', 'session' => 'templating.helper.session', 'router' => 'templating.helper.router', 'actions' => 'templating.helper.actions', 'code' => 'templating.helper.code', 'translator' => 'templating.helper.translator', 'form' => 'templating.helper.form', 'stopwatch' => 'templating.helper.stopwatch', 'logout_url' => 'templating.helper.logout_url', 'security' => 'templating.helper.security', 'assetic' => 'assetic.helper.dynamic', 'sonata_block' => 'sonata.block.templating.helper'));
+        $instance->setHelpers(array('slots' => 'templating.helper.slots', 'assets' => 'templating.helper.assets', 'request' => 'templating.helper.request', 'session' => 'templating.helper.session', 'router' => 'templating.helper.router', 'actions' => 'templating.helper.actions', 'code' => 'templating.helper.code', 'translator' => 'templating.helper.translator', 'form' => 'templating.helper.form', 'stopwatch' => 'templating.helper.stopwatch', 'logout_url' => 'templating.helper.logout_url', 'security' => 'templating.helper.security', 'assetic' => 'assetic.helper.dynamic', 'sonata_block' => 'sonata.block.templating.helper', 'oneup_uploader' => 'oneup_uploader.templating.uploader_helper'));
 
         return $instance;
     }
@@ -1452,7 +1468,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getFosJsRouting_ExtractorService()
     {
-        return $this->services['fos_js_routing.extractor'] = new \FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractor($this->get('router'), array(), '/var/www/INSSET/ephemit/app/cache/dev', array('FrameworkBundle' => 'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle', 'SecurityBundle' => 'Symfony\\Bundle\\SecurityBundle\\SecurityBundle', 'TwigBundle' => 'Symfony\\Bundle\\TwigBundle\\TwigBundle', 'MonologBundle' => 'Symfony\\Bundle\\MonologBundle\\MonologBundle', 'SwiftmailerBundle' => 'Symfony\\Bundle\\SwiftmailerBundle\\SwiftmailerBundle', 'AsseticBundle' => 'Symfony\\Bundle\\AsseticBundle\\AsseticBundle', 'DoctrineBundle' => 'Doctrine\\Bundle\\DoctrineBundle\\DoctrineBundle', 'SensioFrameworkExtraBundle' => 'Sensio\\Bundle\\FrameworkExtraBundle\\SensioFrameworkExtraBundle', 'EphemitUtilisateurBundle' => 'Ephemit\\UtilisateurBundle\\EphemitUtilisateurBundle', 'EphemitSiteBundle' => 'Ephemit\\SiteBundle\\EphemitSiteBundle', 'FOSUserBundle' => 'FOS\\UserBundle\\FOSUserBundle', 'SonatajQueryBundle' => 'Sonata\\jQueryBundle\\SonatajQueryBundle', 'SonataAdminBundle' => 'Sonata\\AdminBundle\\SonataAdminBundle', 'SonataDoctrineORMAdminBundle' => 'Sonata\\DoctrineORMAdminBundle\\SonataDoctrineORMAdminBundle', 'KnpMenuBundle' => 'Knp\\Bundle\\MenuBundle\\KnpMenuBundle', 'SonataUserBundle' => 'Sonata\\UserBundle\\SonataUserBundle', 'SonataEasyExtendsBundle' => 'Sonata\\EasyExtendsBundle\\SonataEasyExtendsBundle', 'SonataCoreBundle' => 'Sonata\\CoreBundle\\SonataCoreBundle', 'SonataBlockBundle' => 'Sonata\\BlockBundle\\SonataBlockBundle', 'EphemitEvenementBundle' => 'Ephemit\\EvenementBundle\\EphemitEvenementBundle', 'FOSJsRoutingBundle' => 'FOS\\JsRoutingBundle\\FOSJsRoutingBundle', 'EphemitCalendrierBundle' => 'Ephemit\\CalendrierBundle\\EphemitCalendrierBundle', 'WebProfilerBundle' => 'Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle', 'SensioDistributionBundle' => 'Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle', 'SensioGeneratorBundle' => 'Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle'));
+        return $this->services['fos_js_routing.extractor'] = new \FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractor($this->get('router'), array(), '/var/www/INSSET/ephemit/app/cache/dev', array('FrameworkBundle' => 'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle', 'SecurityBundle' => 'Symfony\\Bundle\\SecurityBundle\\SecurityBundle', 'TwigBundle' => 'Symfony\\Bundle\\TwigBundle\\TwigBundle', 'MonologBundle' => 'Symfony\\Bundle\\MonologBundle\\MonologBundle', 'SwiftmailerBundle' => 'Symfony\\Bundle\\SwiftmailerBundle\\SwiftmailerBundle', 'AsseticBundle' => 'Symfony\\Bundle\\AsseticBundle\\AsseticBundle', 'DoctrineBundle' => 'Doctrine\\Bundle\\DoctrineBundle\\DoctrineBundle', 'SensioFrameworkExtraBundle' => 'Sensio\\Bundle\\FrameworkExtraBundle\\SensioFrameworkExtraBundle', 'EphemitUtilisateurBundle' => 'Ephemit\\UtilisateurBundle\\EphemitUtilisateurBundle', 'EphemitSiteBundle' => 'Ephemit\\SiteBundle\\EphemitSiteBundle', 'FOSUserBundle' => 'FOS\\UserBundle\\FOSUserBundle', 'SonatajQueryBundle' => 'Sonata\\jQueryBundle\\SonatajQueryBundle', 'SonataAdminBundle' => 'Sonata\\AdminBundle\\SonataAdminBundle', 'SonataDoctrineORMAdminBundle' => 'Sonata\\DoctrineORMAdminBundle\\SonataDoctrineORMAdminBundle', 'KnpMenuBundle' => 'Knp\\Bundle\\MenuBundle\\KnpMenuBundle', 'SonataUserBundle' => 'Sonata\\UserBundle\\SonataUserBundle', 'SonataEasyExtendsBundle' => 'Sonata\\EasyExtendsBundle\\SonataEasyExtendsBundle', 'SonataCoreBundle' => 'Sonata\\CoreBundle\\SonataCoreBundle', 'SonataBlockBundle' => 'Sonata\\BlockBundle\\SonataBlockBundle', 'EphemitEvenementBundle' => 'Ephemit\\EvenementBundle\\EphemitEvenementBundle', 'FOSJsRoutingBundle' => 'FOS\\JsRoutingBundle\\FOSJsRoutingBundle', 'EphemitCalendrierBundle' => 'Ephemit\\CalendrierBundle\\EphemitCalendrierBundle', 'OneupUploaderBundle' => 'Oneup\\UploaderBundle\\OneupUploaderBundle', 'WebProfilerBundle' => 'Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle', 'SensioDistributionBundle' => 'Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle', 'SensioGeneratorBundle' => 'Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle'));
     }
 
     /**
@@ -2280,6 +2296,168 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'oneup_uploader.chunk_manager' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\Uploader\Chunk\ChunkManager A Oneup\UploaderBundle\Uploader\Chunk\ChunkManager instance.
+     */
+    protected function getOneupUploader_ChunkManagerService()
+    {
+        return $this->services['oneup_uploader.chunk_manager'] = new \Oneup\UploaderBundle\Uploader\Chunk\ChunkManager(array('maxage' => 604800, 'storage' => array('type' => 'filesystem', 'filesystem' => NULL, 'directory' => '/var/www/INSSET/ephemit/app/cache/dev/uploader/chunks', 'stream_wrapper' => NULL, 'sync_buffer_size' => '100K', 'prefix' => 'chunks'), 'load_distribution' => true), $this->get('oneup_uploader.chunks_storage'));
+    }
+
+    /**
+     * Gets the 'oneup_uploader.chunks_storage' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\Uploader\Chunk\Storage\FilesystemStorage A Oneup\UploaderBundle\Uploader\Chunk\Storage\FilesystemStorage instance.
+     */
+    protected function getOneupUploader_ChunksStorageService()
+    {
+        return $this->services['oneup_uploader.chunks_storage'] = new \Oneup\UploaderBundle\Uploader\Chunk\Storage\FilesystemStorage('/var/www/INSSET/ephemit/app/cache/dev/uploader/chunks');
+    }
+
+    /**
+     * Gets the 'oneup_uploader.controller.gallery' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\Controller\UploadifyController A Oneup\UploaderBundle\Controller\UploadifyController instance.
+     * 
+     * @throws InactiveScopeException when the 'oneup_uploader.controller.gallery' service is requested while the 'request' scope is not active
+     */
+    protected function getOneupUploader_Controller_GalleryService()
+    {
+        if (!isset($this->scopedServices['request'])) {
+            throw new InactiveScopeException('oneup_uploader.controller.gallery', 'request');
+        }
+
+        return $this->services['oneup_uploader.controller.gallery'] = $this->scopedServices['request']['oneup_uploader.controller.gallery'] = new \Oneup\UploaderBundle\Controller\UploadifyController($this, $this->get('oneup_uploader.storage.gallery'), $this->get('oneup_uploader.error_handler.uploadify'), array('frontend' => 'uploadify', 'custom_frontend' => array('name' => NULL, 'class' => NULL), 'storage' => array('service' => NULL, 'type' => 'filesystem', 'filesystem' => NULL, 'directory' => '/var/www/INSSET/ephemit/app/../web/uploads/gallery', 'stream_wrapper' => NULL, 'sync_buffer_size' => '100K'), 'allowed_mimetypes' => array(), 'disallowed_mimetypes' => array(), 'error_handler' => NULL, 'max_size' => 9223372036854775807, 'use_orphanage' => false, 'enable_progress' => false, 'enable_cancelation' => false, 'namer' => 'oneup_uploader.namer.uniqid'), 'gallery');
+    }
+
+    /**
+     * Gets the 'oneup_uploader.namer.uniqid' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\Uploader\Naming\UniqidNamer A Oneup\UploaderBundle\Uploader\Naming\UniqidNamer instance.
+     */
+    protected function getOneupUploader_Namer_UniqidService()
+    {
+        return $this->services['oneup_uploader.namer.uniqid'] = new \Oneup\UploaderBundle\Uploader\Naming\UniqidNamer();
+    }
+
+    /**
+     * Gets the 'oneup_uploader.orphanage_manager' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\Uploader\Orphanage\OrphanageManager A Oneup\UploaderBundle\Uploader\Orphanage\OrphanageManager instance.
+     */
+    protected function getOneupUploader_OrphanageManagerService()
+    {
+        return $this->services['oneup_uploader.orphanage_manager'] = new \Oneup\UploaderBundle\Uploader\Orphanage\OrphanageManager($this, array('maxage' => 604800, 'directory' => '/var/www/INSSET/ephemit/app/cache/dev/uploader/orphanage'));
+    }
+
+    /**
+     * Gets the 'oneup_uploader.routing.loader' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\Routing\RouteLoader A Oneup\UploaderBundle\Routing\RouteLoader instance.
+     */
+    protected function getOneupUploader_Routing_LoaderService()
+    {
+        return $this->services['oneup_uploader.routing.loader'] = new \Oneup\UploaderBundle\Routing\RouteLoader(array('gallery' => array(0 => 'oneup_uploader.controller.gallery', 1 => array('enable_progress' => false, 'enable_cancelation' => false))));
+    }
+
+    /**
+     * Gets the 'oneup_uploader.storage.gallery' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\Uploader\Storage\FilesystemStorage A Oneup\UploaderBundle\Uploader\Storage\FilesystemStorage instance.
+     */
+    protected function getOneupUploader_Storage_GalleryService()
+    {
+        return $this->services['oneup_uploader.storage.gallery'] = new \Oneup\UploaderBundle\Uploader\Storage\FilesystemStorage('/var/www/INSSET/ephemit/app/../web/uploads/gallery');
+    }
+
+    /**
+     * Gets the 'oneup_uploader.templating.uploader_helper' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\Templating\Helper\UploaderHelper A Oneup\UploaderBundle\Templating\Helper\UploaderHelper instance.
+     */
+    protected function getOneupUploader_Templating_UploaderHelperService()
+    {
+        return $this->services['oneup_uploader.templating.uploader_helper'] = new \Oneup\UploaderBundle\Templating\Helper\UploaderHelper($this->get('router'));
+    }
+
+    /**
+     * Gets the 'oneup_uploader.twig.extension.uploader' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\Twig\Extension\UploaderExtension A Oneup\UploaderBundle\Twig\Extension\UploaderExtension instance.
+     */
+    protected function getOneupUploader_Twig_Extension_UploaderService()
+    {
+        return $this->services['oneup_uploader.twig.extension.uploader'] = new \Oneup\UploaderBundle\Twig\Extension\UploaderExtension($this->get('oneup_uploader.templating.uploader_helper'));
+    }
+
+    /**
+     * Gets the 'oneup_uploader.validation_listener.allowed_mimetype' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\EventListener\AllowedMimetypeValidationListener A Oneup\UploaderBundle\EventListener\AllowedMimetypeValidationListener instance.
+     */
+    protected function getOneupUploader_ValidationListener_AllowedMimetypeService()
+    {
+        return $this->services['oneup_uploader.validation_listener.allowed_mimetype'] = new \Oneup\UploaderBundle\EventListener\AllowedMimetypeValidationListener();
+    }
+
+    /**
+     * Gets the 'oneup_uploader.validation_listener.disallowed_mimetype' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\EventListener\DisallowedMimetypeValidationListener A Oneup\UploaderBundle\EventListener\DisallowedMimetypeValidationListener instance.
+     */
+    protected function getOneupUploader_ValidationListener_DisallowedMimetypeService()
+    {
+        return $this->services['oneup_uploader.validation_listener.disallowed_mimetype'] = new \Oneup\UploaderBundle\EventListener\DisallowedMimetypeValidationListener();
+    }
+
+    /**
+     * Gets the 'oneup_uploader.validation_listener.max_size' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Oneup\UploaderBundle\EventListener\MaxSizeValidationListener A Oneup\UploaderBundle\EventListener\MaxSizeValidationListener instance.
+     */
+    protected function getOneupUploader_ValidationListener_MaxSizeService()
+    {
+        return $this->services['oneup_uploader.validation_listener.max_size'] = new \Oneup\UploaderBundle\EventListener\MaxSizeValidationListener();
+    }
+
+    /**
      * Gets the 'profiler' service.
      *
      * This service is shared.
@@ -2439,6 +2617,7 @@ class appDevDebugProjectContainer extends Container
         $d->addLoader(new \Symfony\Component\Routing\Loader\AnnotationFileLoader($a, $c));
         $d->addLoader($c);
         $d->addLoader($this->get('sonata.admin.route_loader'));
+        $d->addLoader($this->get('oneup_uploader.routing.loader'));
 
         return $this->services['routing.loader'] = new \Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader($this->get('controller_name_converter'), $this->get('monolog.logger.router', ContainerInterface::NULL_ON_INVALID_REFERENCE), $d);
     }
@@ -2517,7 +2696,7 @@ class appDevDebugProjectContainer extends Container
         $g = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($d, array('login_path' => '/admin/login', 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false));
         $g->setProviderKey('admin');
 
-        return $this->services['security.firewall.map.context.admin'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('fos_user.user_manager')), 'admin', $b, $c), 2 => $f, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'admin', $g, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/admin/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('use_forward' => false, 'check_path' => '/admin/login_check', 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c, NULL), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '534bdbeb0df25', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'admin', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/admin/login', false), NULL, NULL, $b));
+        return $this->services['security.firewall.map.context.admin'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('fos_user.user_manager')), 'admin', $b, $c), 2 => $f, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'admin', $g, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/admin/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('use_forward' => false, 'check_path' => '/admin/login_check', 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c, NULL), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '534d478d135d1', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'admin', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/admin/login', false), NULL, NULL, $b));
     }
 
     /**
@@ -2539,7 +2718,7 @@ class appDevDebugProjectContainer extends Container
         $f = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($d, array('login_path' => '/login', 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false));
         $f->setProviderKey('main');
 
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('fos_user.user_manager')), 'main', $b, $c), 2 => new \Symfony\Component\Security\Http\Firewall\LogoutListener($a, $d, new \Symfony\Component\Security\Http\Logout\DefaultLogoutSuccessHandler($d, '/'), array('csrf_parameter' => '_csrf_token', 'intention' => 'logout', 'logout_path' => '/logout')), 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'main', $f, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('use_forward' => false, 'check_path' => '/login_check', 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c, NULL), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '534bdbeb0df25', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b));
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('fos_user.user_manager')), 'main', $b, $c), 2 => new \Symfony\Component\Security\Http\Firewall\LogoutListener($a, $d, new \Symfony\Component\Security\Http\Logout\DefaultLogoutSuccessHandler($d, '/'), array('csrf_parameter' => '_csrf_token', 'intention' => 'logout', 'logout_path' => '/logout')), 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'main', $f, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('use_forward' => false, 'check_path' => '/login_check', 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c, NULL), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '534d478d135d1', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b));
     }
 
     /**
@@ -5373,6 +5552,7 @@ class appDevDebugProjectContainer extends Container
         $instance->addResource('xliff', '/var/www/INSSET/ephemit/vendor/sonata-project/core-bundle/Resources/translations/SonataCoreBundle.es.xliff', 'es', 'SonataCoreBundle');
         $instance->addResource('xlf', '/var/www/INSSET/ephemit/src/Ephemit/EvenementBundle/Resources/translations/messages.fr.xlf', 'fr', 'messages');
         $instance->addResource('xlf', '/var/www/INSSET/ephemit/src/Ephemit/CalendrierBundle/Resources/translations/messages.fr.xlf', 'fr', 'messages');
+        $instance->addResource('yml', '/var/www/INSSET/ephemit/vendor/oneup/uploader-bundle/Oneup/UploaderBundle/Resources/translations/OneupUploaderBundle.en.yml', 'en', 'OneupUploaderBundle');
 
         return $instance;
     }
@@ -5411,6 +5591,7 @@ class appDevDebugProjectContainer extends Container
         $instance->addExtension($this->get('sonata.core.twig.status_extension'));
         $instance->addExtension($this->get('sonata.core.twig.template_extension'));
         $instance->addExtension(new \Sonata\BlockBundle\Twig\Extension\BlockExtension($this->get('sonata.block.templating.helper')));
+        $instance->addExtension($this->get('oneup_uploader.twig.extension.uploader'));
         $instance->addGlobal('app', $this->get('templating.globals'));
         $instance->addGlobal('sonata_user', $this->get('sonata.user.twig.global'));
         $instance->addGlobal('sonata_block', $this->get('sonata.block.twig.global'));
@@ -5691,6 +5872,23 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'oneup_uploader.error_handler.uploadify' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * This service is private.
+     * If you want to be able to request this service from the container directly,
+     * make it public, otherwise you might end up with broken code.
+     *
+     * @return Oneup\UploaderBundle\Uploader\ErrorHandler\NoopErrorHandler A Oneup\UploaderBundle\Uploader\ErrorHandler\NoopErrorHandler instance.
+     */
+    protected function getOneupUploader_ErrorHandler_UploadifyService()
+    {
+        return $this->services['oneup_uploader.error_handler.uploadify'] = new \Oneup\UploaderBundle\Uploader\ErrorHandler\NoopErrorHandler();
+    }
+
+    /**
      * Gets the 'router.request_context' service.
      *
      * This service is shared.
@@ -5792,7 +5990,7 @@ class appDevDebugProjectContainer extends Container
         $b = $this->get('security.user_checker');
         $c = $this->get('security.encoder_factory');
 
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $b, 'admin', $c, true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('534bdbeb0df25'), 2 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $b, 'main', $c, true), 3 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('534bdbeb0df25')), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $b, 'admin', $c, true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('534d478d135d1'), 2 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $b, 'main', $c, true), 3 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('534d478d135d1')), true);
 
         $instance->setEventDispatcher($this->get('debug.event_dispatcher'));
 
@@ -6114,6 +6312,7 @@ class appDevDebugProjectContainer extends Container
                 'EphemitEvenementBundle' => 'Ephemit\\EvenementBundle\\EphemitEvenementBundle',
                 'FOSJsRoutingBundle' => 'FOS\\JsRoutingBundle\\FOSJsRoutingBundle',
                 'EphemitCalendrierBundle' => 'Ephemit\\CalendrierBundle\\EphemitCalendrierBundle',
+                'OneupUploaderBundle' => 'Oneup\\UploaderBundle\\OneupUploaderBundle',
                 'WebProfilerBundle' => 'Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle',
                 'SensioDistributionBundle' => 'Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle',
                 'SensioGeneratorBundle' => 'Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle',
@@ -6917,6 +7116,50 @@ class appDevDebugProjectContainer extends Container
             'fos_js_routing.controller.class' => 'FOS\\JsRoutingBundle\\Controller\\Controller',
             'fos_js_routing.cache_control' => array(
                 'enabled' => false,
+            ),
+            'oneup_uploader.chunks.manager.class' => 'Oneup\\UploaderBundle\\Uploader\\Chunk\\ChunkManager',
+            'oneup_uploader.chunks_storage.gaufrette.class' => 'Oneup\\UploaderBundle\\Uploader\\Chunk\\Storage\\GaufretteStorage',
+            'oneup_uploader.chunks_storage.filesystem.class' => 'Oneup\\UploaderBundle\\Uploader\\Chunk\\Storage\\FilesystemStorage',
+            'oneup_uploader.namer.uniqid.class' => 'Oneup\\UploaderBundle\\Uploader\\Naming\\UniqidNamer',
+            'oneup_uploader.routing.loader.class' => 'Oneup\\UploaderBundle\\Routing\\RouteLoader',
+            'oneup_uploader.storage.gaufrette.class' => 'Oneup\\UploaderBundle\\Uploader\\Storage\\GaufretteStorage',
+            'oneup_uploader.storage.filesystem.class' => 'Oneup\\UploaderBundle\\Uploader\\Storage\\FilesystemStorage',
+            'oneup_uploader.orphanage.class' => 'Oneup\\UploaderBundle\\Uploader\\Storage\\FilesystemOrphanageStorage',
+            'oneup_uploader.orphanage.manager.class' => 'Oneup\\UploaderBundle\\Uploader\\Orphanage\\OrphanageManager',
+            'oneup_uploader.controller.fineuploader.class' => 'Oneup\\UploaderBundle\\Controller\\FineUploaderController',
+            'oneup_uploader.controller.blueimp.class' => 'Oneup\\UploaderBundle\\Controller\\BlueimpController',
+            'oneup_uploader.controller.uploadify.class' => 'Oneup\\UploaderBundle\\Controller\\UploadifyController',
+            'oneup_uploader.controller.yui3.class' => 'Oneup\\UploaderBundle\\Controller\\YUI3Controller',
+            'oneup_uploader.controller.fancyupload.class' => 'Oneup\\UploaderBundle\\Controller\\FancyUploadController',
+            'oneup_uploader.controller.mooupload.class' => 'Oneup\\UploaderBundle\\Controller\\MooUploadController',
+            'oneup_uploader.controller.plupload.class' => 'Oneup\\UploaderBundle\\Controller\\PluploadController',
+            'oneup_uploader.controller.dropzone.class' => 'Oneup\\UploaderBundle\\Controller\\DropzoneController',
+            'oneup_uploader.error_handler.noop.class' => 'Oneup\\UploaderBundle\\Uploader\\ErrorHandler\\NoopErrorHandler',
+            'oneup_uploader.error_handler.blueimp.class' => 'Oneup\\UploaderBundle\\Uploader\\ErrorHandler\\BlueimpErrorHandler',
+            'oneup_uploader.chunks' => array(
+                'maxage' => 604800,
+                'storage' => array(
+                    'type' => 'filesystem',
+                    'filesystem' => NULL,
+                    'directory' => '/var/www/INSSET/ephemit/app/cache/dev/uploader/chunks',
+                    'stream_wrapper' => NULL,
+                    'sync_buffer_size' => '100K',
+                    'prefix' => 'chunks',
+                ),
+                'load_distribution' => true,
+            ),
+            'oneup_uploader.orphanage' => array(
+                'maxage' => 604800,
+                'directory' => '/var/www/INSSET/ephemit/app/cache/dev/uploader/orphanage',
+            ),
+            'oneup_uploader.controllers' => array(
+                'gallery' => array(
+                    0 => 'oneup_uploader.controller.gallery',
+                    1 => array(
+                        'enable_progress' => false,
+                        'enable_cancelation' => false,
+                    ),
+                ),
             ),
             'web_profiler.controller.profiler.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController',
             'web_profiler.controller.router.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\RouterController',

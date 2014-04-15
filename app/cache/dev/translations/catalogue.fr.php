@@ -841,6 +841,12 @@ the Team.
     'label_type_no' => 'no',
     'sonata_core_template_box_file_found_in' => 'This file can be found in',
   ),
+  'OneupUploaderBundle' => 
+  array (
+    'error.maxsize' => 'This file is too large.',
+    'error.whitelist' => 'This file type is not allowed.',
+    'error.blacklist' => 'This file type is not allowed.',
+  ),
 ));
 $catalogue->addFallbackCatalogue($catalogueEn);
 
