@@ -36,31 +36,38 @@ class EvenementController extends Controller
                 $today = new \DateTime('now');
                 $post = $request->request->get('ephemit_evenement_creer');
                 
-                
-                $publicpass = sha1($post['publicpass']);
+                if($post['publicpass']!=''){
+                    $publicpass = sha1($post['publicpass']);
+                    $event->setPublicpass($publicpass);
+                }
                 $adminpass1 = sha1($post['adminpass1']);
                 $adminpass2 = sha1($post['adminpass2']);
-                
-                /*documents*/
-                foreach($post['documents'] as $doc){
-                    $doc = new Document();
-                    $doc->setEvent($event);
-                    $doc->setDate($today);
-                    
-                    $em->persist($doc);
-                }
                 
                 $time = time();
                 $rand = rand(0, 100);
                 $cle = $time*$rand;
                 
                 $event->setCle(md5($cle));
-                $event->setPublicpass($publicpass);
+                
                 $event->setAdminpass1($adminpass1);
                 $event->setAdminpass2($adminpass2);
                 $event->setDateCreation($today);
                 $em->persist($event);
+                
+                /*documents*/
+                foreach($post['documents'] as $document){
+                    $doc = new Document();
+                    $doc->setEvent($event);
+                    $doc->setNom($document['nom']);
+                    $doc->setNomOriginal($document['nomOriginal']);
+                    
+                    $em->persist($doc);
+                }
+                
                 $em->flush();
+                
+                
+                
                 
                 $tabRetour= array();
                 $tabRetour['code'] = 0;
@@ -177,6 +184,21 @@ class EvenementController extends Controller
         $page = $repoEvent->findOneByCle($cle);
         $formPass = $this->createForm(new ProtectionPageType());
         
+        $documents = $page->getDocuments();
+        $arrayExtImg = array('jpg','jpeg','png','gif');
+        $arrayImg = array();
+        $arrayPJ = array();
+        
+        foreach($documents as $doc){
+            $ext = explode('.', $doc->getNom());
+            if(in_array($ext[1], $arrayExtImg)){
+                $arrayImg[] = $doc;
+            }
+            else{
+                $arrayPJ[] = $doc;
+            }
+        }
+        
         if($page->getPublicpass() != null){
             $protect = true;
             
@@ -199,7 +221,9 @@ class EvenementController extends Controller
         return $this->render('EphemitEvenementBundle:Evenement:page.html.twig', array(
             'page'=>$page, 
             'protect'=>$protect,
-            'formPass'=>$formPass->createView()
+            'formPass'=>$formPass->createView(),
+            'arrayImg'=>$arrayImg,
+            'arrayPJ'=>$arrayPJ
         ));
     }
     

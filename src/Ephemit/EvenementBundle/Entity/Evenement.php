@@ -107,7 +107,8 @@ class Evenement
     private $twitter;
     
     /**
-     *@ORM\OneToMany(targetEntity="Document", mappedBy="event", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Document", mappedBy="event", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $documents;
 

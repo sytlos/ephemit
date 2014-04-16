@@ -4,6 +4,7 @@ namespace Ephemit\EvenementBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Document
@@ -25,14 +26,22 @@ class Document
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=255, nullable=true)
      */
     private $nom;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nomOriginal", type="string", length=255, nullable=true)
+     */
+    private $nomOriginal;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="create")
      */
     private $date;
     
@@ -43,7 +52,7 @@ class Document
     
     /**
      * @ORM\ManyToOne(targetEntity="Evenement", inversedBy="documents")
-     * @ORM\JoinColumn(referencedColumnName="id")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
     private $event;
 
@@ -124,5 +133,28 @@ class Document
     public function getEvent()
     {
         return $this->event;
+    }
+
+    /**
+     * Set nomOriginal
+     *
+     * @param string $nomOriginal
+     * @return Document
+     */
+    public function setNomOriginal($nomOriginal)
+    {
+        $this->nomOriginal = $nomOriginal;
+
+        return $this;
+    }
+
+    /**
+     * Get nomOriginal
+     *
+     * @return string 
+     */
+    public function getNomOriginal()
+    {
+        return $this->nomOriginal;
     }
 }

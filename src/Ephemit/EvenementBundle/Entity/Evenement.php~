@@ -107,7 +107,8 @@ class Evenement
     private $twitter;
     
     /**
-     *@ORM\OneToMany(targetEntity="Document", mappedBy="event", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Document", mappedBy="event", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $documents;
 
@@ -398,5 +399,45 @@ class Evenement
     public function getTwitter()
     {
         return $this->twitter;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add documents
+     *
+     * @param \Ephemit\EvenementBundle\Entity\Document $documents
+     * @return Evenement
+     */
+    public function addDocument(\Ephemit\EvenementBundle\Entity\Document $documents)
+    {
+        $this->documents[] = $documents;
+
+        return $this;
+    }
+
+    /**
+     * Remove documents
+     *
+     * @param \Ephemit\EvenementBundle\Entity\Document $documents
+     */
+    public function removeDocument(\Ephemit\EvenementBundle\Entity\Document $documents)
+    {
+        $this->documents->removeElement($documents);
+    }
+
+    /**
+     * Get documents
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
     }
 }

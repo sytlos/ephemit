@@ -1,7 +1,6 @@
 parameters:
-#    ephemit_evenement.example.class: Ephemit\EvenementBundle\Example
+    ephemit_evenement.namer.class: Ephemit\EvenementBundle\Services\FileNamer
 
 services:
-#    ephemit_evenement.example:
-#        class: %ephemit_evenement.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    ephemit_evenement.file.namer:
+        class: %ephemit_evenement.namer.class%

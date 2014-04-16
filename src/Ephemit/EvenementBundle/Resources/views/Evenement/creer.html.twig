@@ -75,7 +75,8 @@ $(document).ready(function() {
         multi : false,
         onUploadComplete : function(file,data){
             var count = index - 1;
-            $('#ephemit_evenement_creer_documents_'+count+'_nom').val(data);
+            $('#ephemit_evenement_creer_documents_'+count+'_nom').val(file.size+file.type);
+            $('#ephemit_evenement_creer_documents_'+count+'_nomOriginal').val(file.name);
         }
     });
     e.preventDefault(); // évite qu'un # apparaisse dans l'URL
@@ -130,13 +131,13 @@ $(document).ready(function() {
     {
         swf: "{{ asset('bundles/ephemitsite/js/uploadify.swf') }}",
         uploader: "{{ oneup_uploader_endpoint('gallery') }}",
-        buttonText: 'Choisir',
+        buttonText: 'CHOISIR',
         cancelImg : '{{ asset('bundles/ephemitsite/images/uploadify-cancel.png') }}',
         multi : false,
         onUploadSuccess : function(file, data, response){
             var count = index - 1;
-            alert(response);
-            $('#ephemit_evenement_creer_documents_'+count+'_nom').val(file.name);
+            $('#ephemit_evenement_creer_documents_'+count+'_nom').val(file.size+file.type);
+            $('#ephemit_evenement_creer_documents_'+count+'_nomOriginal').val(file.name);
         }
     });
 });

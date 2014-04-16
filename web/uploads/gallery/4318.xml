@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <shapelize translate="label">
+            <label>Shapelize</label>
+            <sort_order>1</sort_order>
+        </shapelize>
+    </tabs>
+    <sections>
+        <sketchfab translate="label">
+            <label>Sketchfab</label>
+            <tab>shapelize</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <configuration translate="label">
+                    <label>Configuration</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <token translate="label comment">
+                            <label>Token</label>
+                            <comment>
+                                <![CDATA[
+                                    This token is given by Sketchfab
+                                    <span class="notice">Very important!</span>
+                                ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </token>
+                    </fields>
+                </configuration>
+                <urls translate="label">
+                    <label>URLs</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <providerurl translate="label">
+                            <label>Provider URL</label>
+                            <comment>
+                                <![CDATA[
+                                    Sketchfab's Provider URL
+                                ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </providerurl>
+                        <apiurl translate="label">
+                            <label>API URL</label>
+                            <comment>
+                                <![CDATA[
+                                    Sketchfab's API URL
+                                ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </apiurl>
+                        <upload translate="label">
+                            <label>Upload URL</label>
+                            <comment>
+                                <![CDATA[
+                                    Sketchfab's URL to upload an 3D item
+                                ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </upload>
+                    </fields>
+                </urls>
+            </groups>
+        </sketchfab>
+    </sections>
+</config>

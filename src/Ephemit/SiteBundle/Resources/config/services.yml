@@ -1,7 +1,7 @@
 parameters:
-#    ephemit_site.example.class: Ephemit\SiteBundle\Example
+    ephemit_site.example.class: Ephemit\SiteBundle\Example
 
 services:
-#    ephemit_site.example:
-#        class: %ephemit_site.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    ephemit_evenement.file.namer:
+        class: %ephemit_site.namer.class%
+        arguments: [@service_id, "plain_value", %parameter%]

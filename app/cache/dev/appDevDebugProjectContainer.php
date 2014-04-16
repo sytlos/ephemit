@@ -62,6 +62,8 @@ class appDevDebugProjectContainer extends Container
             'doctrine.orm.default_manager_configurator' => 'getDoctrine_Orm_DefaultManagerConfiguratorService',
             'doctrine.orm.validator.unique' => 'getDoctrine_Orm_Validator_UniqueService',
             'doctrine.orm.validator_initializer' => 'getDoctrine_Orm_ValidatorInitializerService',
+            'ephemit_evenement.file.namer' => 'getEphemitEvenement_File_NamerService',
+            'extension.listener' => 'getExtension_ListenerService',
             'file_locator' => 'getFileLocatorService',
             'filesystem' => 'getFilesystemService',
             'form.csrf_provider' => 'getForm_CsrfProviderService',
@@ -140,6 +142,12 @@ class appDevDebugProjectContainer extends Container
             'fragment.renderer.esi' => 'getFragment_Renderer_EsiService',
             'fragment.renderer.hinclude' => 'getFragment_Renderer_HincludeService',
             'fragment.renderer.inline' => 'getFragment_Renderer_InlineService',
+            'gedmo.listener.loggable' => 'getGedmo_Listener_LoggableService',
+            'gedmo.listener.sluggable' => 'getGedmo_Listener_SluggableService',
+            'gedmo.listener.sortable' => 'getGedmo_Listener_SortableService',
+            'gedmo.listener.timestampable' => 'getGedmo_Listener_TimestampableService',
+            'gedmo.listener.translatable' => 'getGedmo_Listener_TranslatableService',
+            'gedmo.listener.tree' => 'getGedmo_Listener_TreeService',
             'http_kernel' => 'getHttpKernelService',
             'kernel' => 'getKernelService',
             'knp_menu.factory' => 'getKnpMenu_FactoryService',
@@ -656,6 +664,8 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['debug.event_dispatcher'] = $instance = new \Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher(new \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher($this), $this->get('debug.stopwatch'), $this->get('monolog.logger.event', ContainerInterface::NULL_ON_INVALID_REFERENCE));
 
+        $instance->addListenerService('kernel.request', array(0 => 'extension.listener', 1 => 'onLateKernelRequest'), -10);
+        $instance->addListenerService('kernel.request', array(0 => 'extension.listener', 1 => 'onKernelRequest'), 0);
         $instance->addListenerService('kernel.controller', array(0 => 'data_collector.router', 1 => 'onKernelController'), 0);
         $instance->addListenerService('kernel.request', array(0 => 'assetic.request_listener', 1 => 'onKernelRequest'), 0);
         $instance->addListenerService('security.interactive_login', array(0 => 'fos_user.security.interactive_login_listener', 1 => 'onSecurityInteractiveLogin'), 0);
@@ -764,6 +774,12 @@ class appDevDebugProjectContainer extends Container
 
         $c = new \Symfony\Bridge\Doctrine\ContainerAwareEventManager($this);
         $c->addEventSubscriber(new \FOS\UserBundle\Entity\UserListener($this));
+        $c->addEventSubscriber($this->get('gedmo.listener.sortable'));
+        $c->addEventSubscriber($this->get('gedmo.listener.translatable'));
+        $c->addEventSubscriber($this->get('gedmo.listener.tree'));
+        $c->addEventSubscriber($this->get('gedmo.listener.timestampable'));
+        $c->addEventSubscriber($this->get('gedmo.listener.loggable'));
+        $c->addEventSubscriber($this->get('gedmo.listener.sluggable'));
         $c->addEventSubscriber($this->get('sonata.easy_extends.doctrine.mapper'));
 
         return $this->services['doctrine.dbal.default_connection'] = $this->get('doctrine.dbal.connection_factory')->createConnection(array('driver' => 'pdo_mysql', 'host' => '127.0.0.1', 'port' => NULL, 'dbname' => 'ephemit', 'user' => 'root', 'password' => 'slipknot007', 'charset' => 'UTF8', 'driverOptions' => array()), $b, $c, array());
@@ -790,19 +806,22 @@ class appDevDebugProjectContainer extends Container
         $d = new \Doctrine\Common\Cache\ArrayCache();
         $d->setNamespace('sf2orm_default_ce56995d0afbf12038bdcb7d9f18c25c2f96789d5edbf9918691bf46b33a192a');
 
-        $e = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($a, array(0 => '/var/www/INSSET/ephemit/src/Ephemit/UtilisateurBundle/Entity', 1 => '/var/www/INSSET/ephemit/src/Ephemit/EvenementBundle/Entity'));
+        $e = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($a, array(0 => '/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity', 1 => '/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity', 2 => '/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity', 3 => '/var/www/INSSET/ephemit/src/Ephemit/UtilisateurBundle/Entity', 4 => '/var/www/INSSET/ephemit/src/Ephemit/EvenementBundle/Entity'));
 
         $f = new \Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver(array('/var/www/INSSET/ephemit/vendor/friendsofsymfony/user-bundle/FOS/UserBundle/Resources/config/doctrine' => 'FOS\\UserBundle\\Entity', '/var/www/INSSET/ephemit/vendor/sonata-project/user-bundle/Resources/config/doctrine' => 'Sonata\\UserBundle\\Entity'));
         $f->setGlobalBasename('mapping');
 
         $g = new \Doctrine\ORM\Mapping\Driver\DriverChain();
+        $g->addDriver($e, 'Gedmo\\Translatable\\Entity');
+        $g->addDriver($e, 'Gedmo\\Loggable\\Entity');
+        $g->addDriver($e, 'Gedmo\\Tree\\Entity');
         $g->addDriver($e, 'Ephemit\\UtilisateurBundle\\Entity');
         $g->addDriver($e, 'Ephemit\\EvenementBundle\\Entity');
         $g->addDriver($f, 'FOS\\UserBundle\\Entity');
         $g->addDriver($f, 'Sonata\\UserBundle\\Entity');
 
         $h = new \Doctrine\ORM\Configuration();
-        $h->setEntityNamespaces(array('EphemitUtilisateurBundle' => 'Ephemit\\UtilisateurBundle\\Entity', 'FOSUserBundle' => 'FOS\\UserBundle\\Entity', 'SonataUserBundle' => 'Sonata\\UserBundle\\Entity', 'EphemitEvenementBundle' => 'Ephemit\\EvenementBundle\\Entity'));
+        $h->setEntityNamespaces(array('Gedmo' => 'Gedmo\\Tree\\Entity', 'EphemitUtilisateurBundle' => 'Ephemit\\UtilisateurBundle\\Entity', 'FOSUserBundle' => 'FOS\\UserBundle\\Entity', 'SonataUserBundle' => 'Sonata\\UserBundle\\Entity', 'EphemitEvenementBundle' => 'Ephemit\\EvenementBundle\\Entity'));
         $h->setMetadataCacheImpl($b);
         $h->setQueryCacheImpl($c);
         $h->setResultCacheImpl($d);
@@ -858,6 +877,36 @@ class appDevDebugProjectContainer extends Container
     protected function getDoctrine_Orm_ValidatorInitializerService()
     {
         return $this->services['doctrine.orm.validator_initializer'] = new \Symfony\Bridge\Doctrine\Validator\DoctrineInitializer($this->get('doctrine'));
+    }
+
+    /**
+     * Gets the 'ephemit_evenement.file.namer' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Ephemit\EvenementBundle\Services\FileNamer A Ephemit\EvenementBundle\Services\FileNamer instance.
+     */
+    protected function getEphemitEvenement_File_NamerService()
+    {
+        return $this->services['ephemit_evenement.file.namer'] = new \Ephemit\EvenementBundle\Services\FileNamer();
+    }
+
+    /**
+     * Gets the 'extension.listener' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Ephemit\EvenementBundle\Listener\DoctrineExtensionListener A Ephemit\EvenementBundle\Listener\DoctrineExtensionListener instance.
+     */
+    protected function getExtension_ListenerService()
+    {
+        $this->services['extension.listener'] = $instance = new \Ephemit\EvenementBundle\Listener\DoctrineExtensionListener();
+
+        $instance->setContainer($this);
+
+        return $instance;
     }
 
     /**
@@ -1912,6 +1961,110 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'gedmo.listener.loggable' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Gedmo\Loggable\LoggableListener A Gedmo\Loggable\LoggableListener instance.
+     */
+    protected function getGedmo_Listener_LoggableService()
+    {
+        $this->services['gedmo.listener.loggable'] = $instance = new \Gedmo\Loggable\LoggableListener();
+
+        $instance->setAnnotationReader($this->get('annotation_reader'));
+
+        return $instance;
+    }
+
+    /**
+     * Gets the 'gedmo.listener.sluggable' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Gedmo\Sluggable\SluggableListener A Gedmo\Sluggable\SluggableListener instance.
+     */
+    protected function getGedmo_Listener_SluggableService()
+    {
+        $this->services['gedmo.listener.sluggable'] = $instance = new \Gedmo\Sluggable\SluggableListener();
+
+        $instance->setAnnotationReader($this->get('annotation_reader'));
+
+        return $instance;
+    }
+
+    /**
+     * Gets the 'gedmo.listener.sortable' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Gedmo\Sortable\SortableListener A Gedmo\Sortable\SortableListener instance.
+     */
+    protected function getGedmo_Listener_SortableService()
+    {
+        $this->services['gedmo.listener.sortable'] = $instance = new \Gedmo\Sortable\SortableListener();
+
+        $instance->setAnnotationReader($this->get('annotation_reader'));
+
+        return $instance;
+    }
+
+    /**
+     * Gets the 'gedmo.listener.timestampable' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Gedmo\Timestampable\TimestampableListener A Gedmo\Timestampable\TimestampableListener instance.
+     */
+    protected function getGedmo_Listener_TimestampableService()
+    {
+        $this->services['gedmo.listener.timestampable'] = $instance = new \Gedmo\Timestampable\TimestampableListener();
+
+        $instance->setAnnotationReader($this->get('annotation_reader'));
+
+        return $instance;
+    }
+
+    /**
+     * Gets the 'gedmo.listener.translatable' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Gedmo\Translatable\TranslatableListener A Gedmo\Translatable\TranslatableListener instance.
+     */
+    protected function getGedmo_Listener_TranslatableService()
+    {
+        $this->services['gedmo.listener.translatable'] = $instance = new \Gedmo\Translatable\TranslatableListener();
+
+        $instance->setAnnotationReader($this->get('annotation_reader'));
+        $instance->setDefaultLocale('fr');
+        $instance->setTranslationFallback(false);
+
+        return $instance;
+    }
+
+    /**
+     * Gets the 'gedmo.listener.tree' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Gedmo\Tree\TreeListener A Gedmo\Tree\TreeListener instance.
+     */
+    protected function getGedmo_Listener_TreeService()
+    {
+        $this->services['gedmo.listener.tree'] = $instance = new \Gedmo\Tree\TreeListener();
+
+        $instance->setAnnotationReader($this->get('annotation_reader'));
+
+        return $instance;
+    }
+
+    /**
      * Gets the 'http_kernel' service.
      *
      * This service is shared.
@@ -2337,7 +2490,7 @@ class appDevDebugProjectContainer extends Container
             throw new InactiveScopeException('oneup_uploader.controller.gallery', 'request');
         }
 
-        return $this->services['oneup_uploader.controller.gallery'] = $this->scopedServices['request']['oneup_uploader.controller.gallery'] = new \Oneup\UploaderBundle\Controller\UploadifyController($this, $this->get('oneup_uploader.storage.gallery'), $this->get('oneup_uploader.error_handler.uploadify'), array('frontend' => 'uploadify', 'custom_frontend' => array('name' => NULL, 'class' => NULL), 'storage' => array('service' => NULL, 'type' => 'filesystem', 'filesystem' => NULL, 'directory' => '/var/www/INSSET/ephemit/app/../web/uploads/gallery', 'stream_wrapper' => NULL, 'sync_buffer_size' => '100K'), 'allowed_mimetypes' => array(), 'disallowed_mimetypes' => array(), 'error_handler' => NULL, 'max_size' => 9223372036854775807, 'use_orphanage' => false, 'enable_progress' => false, 'enable_cancelation' => false, 'namer' => 'oneup_uploader.namer.uniqid'), 'gallery');
+        return $this->services['oneup_uploader.controller.gallery'] = $this->scopedServices['request']['oneup_uploader.controller.gallery'] = new \Oneup\UploaderBundle\Controller\UploadifyController($this, $this->get('oneup_uploader.storage.gallery'), $this->get('oneup_uploader.error_handler.uploadify'), array('frontend' => 'uploadify', 'max_size' => 10485760, 'use_orphanage' => false, 'enable_progress' => false, 'enable_cancelation' => false, 'namer' => 'ephemit_evenement.file.namer', 'custom_frontend' => array('name' => NULL, 'class' => NULL), 'storage' => array('service' => NULL, 'type' => 'filesystem', 'filesystem' => NULL, 'directory' => '/var/www/INSSET/ephemit/app/../web/uploads/gallery', 'stream_wrapper' => NULL, 'sync_buffer_size' => '100K'), 'allowed_mimetypes' => array(), 'disallowed_mimetypes' => array(), 'error_handler' => NULL), 'gallery');
     }
 
     /**
@@ -2696,7 +2849,7 @@ class appDevDebugProjectContainer extends Container
         $g = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($d, array('login_path' => '/admin/login', 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false));
         $g->setProviderKey('admin');
 
-        return $this->services['security.firewall.map.context.admin'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('fos_user.user_manager')), 'admin', $b, $c), 2 => $f, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'admin', $g, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/admin/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('use_forward' => false, 'check_path' => '/admin/login_check', 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c, NULL), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '534d478d135d1', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'admin', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/admin/login', false), NULL, NULL, $b));
+        return $this->services['security.firewall.map.context.admin'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('fos_user.user_manager')), 'admin', $b, $c), 2 => $f, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'admin', $g, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/admin/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('use_forward' => false, 'check_path' => '/admin/login_check', 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c, NULL), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '534da06de868f', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'admin', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/admin/login', false), NULL, NULL, $b));
     }
 
     /**
@@ -2718,7 +2871,7 @@ class appDevDebugProjectContainer extends Container
         $f = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($d, array('login_path' => '/login', 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false));
         $f->setProviderKey('main');
 
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('fos_user.user_manager')), 'main', $b, $c), 2 => new \Symfony\Component\Security\Http\Firewall\LogoutListener($a, $d, new \Symfony\Component\Security\Http\Logout\DefaultLogoutSuccessHandler($d, '/'), array('csrf_parameter' => '_csrf_token', 'intention' => 'logout', 'logout_path' => '/logout')), 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'main', $f, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('use_forward' => false, 'check_path' => '/login_check', 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c, NULL), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '534d478d135d1', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b));
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('fos_user.user_manager')), 'main', $b, $c), 2 => new \Symfony\Component\Security\Http\Firewall\LogoutListener($a, $d, new \Symfony\Component\Security\Http\Logout\DefaultLogoutSuccessHandler($d, '/'), array('csrf_parameter' => '_csrf_token', 'intention' => 'logout', 'logout_path' => '/logout')), 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'main', $f, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('use_forward' => false, 'check_path' => '/login_check', 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c, NULL), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '534da06de868f', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b));
     }
 
     /**
@@ -5990,7 +6143,7 @@ class appDevDebugProjectContainer extends Container
         $b = $this->get('security.user_checker');
         $c = $this->get('security.encoder_factory');
 
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $b, 'admin', $c, true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('534d478d135d1'), 2 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $b, 'main', $c, true), 3 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('534d478d135d1')), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $b, 'admin', $c, true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('534da06de868f'), 2 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $b, 'main', $c, true), 3 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('534da06de868f')), true);
 
         $instance->setEventDispatcher($this->get('debug.event_dispatcher'));
 
@@ -6836,6 +6989,7 @@ class appDevDebugProjectContainer extends Container
             'sensio_framework_extra.converter.doctrine.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Request\\ParamConverter\\DoctrineParamConverter',
             'sensio_framework_extra.converter.datetime.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Request\\ParamConverter\\DateTimeParamConverter',
             'sensio_framework_extra.view.listener.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\EventListener\\TemplateListener',
+            'ephemit_site.example.class' => 'Ephemit\\SiteBundle\\Example',
             'fos_user.validator.password.class' => 'FOS\\UserBundle\\Validator\\PasswordValidator',
             'fos_user.validator.unique.class' => 'FOS\\UserBundle\\Validator\\UniqueValidator',
             'fos_user.security.interactive_login_listener.class' => 'FOS\\UserBundle\\Security\\InteractiveLoginListener',
@@ -7112,6 +7266,7 @@ class appDevDebugProjectContainer extends Container
                     'sonata.admin.block.admin_list' => 'sonata.cache.noop',
                 ),
             ),
+            'ephemit_evenement.namer.class' => 'Ephemit\\EvenementBundle\\Services\\FileNamer',
             'fos_js_routing.extractor.class' => 'FOS\\JsRoutingBundle\\Extractor\\ExposedRoutesExtractor',
             'fos_js_routing.controller.class' => 'FOS\\JsRoutingBundle\\Controller\\Controller',
             'fos_js_routing.cache_control' => array(

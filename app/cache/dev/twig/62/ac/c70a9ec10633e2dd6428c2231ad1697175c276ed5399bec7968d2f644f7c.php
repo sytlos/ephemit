@@ -50,7 +50,7 @@ class __TwigTemplate_62acc70a9ec10633e2dd6428c2231ad1697175c276ed5399bec7968d2f6
             echo "</a></td>
                     <td>";
             // line 13
-            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, $this->getAttribute((isset($context["e"]) ? $context["e"] : $this->getContext($context, "e")), "date"), "d/m/Y"), "html", null, true);
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["e"]) ? $context["e"] : $this->getContext($context, "e")), "date"), "html", null, true);
             echo "</td>
                     <td>";
             // line 14

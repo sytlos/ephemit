@@ -534,6 +534,7 @@
     <parameter key="sensio_framework_extra.converter.doctrine.class">Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter</parameter>
     <parameter key="sensio_framework_extra.converter.datetime.class">Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DateTimeParamConverter</parameter>
     <parameter key="sensio_framework_extra.view.listener.class">Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener</parameter>
+    <parameter key="ephemit_site.example.class">Ephemit\SiteBundle\Example</parameter>
     <parameter key="fos_user.validator.password.class">FOS\UserBundle\Validator\PasswordValidator</parameter>
     <parameter key="fos_user.validator.unique.class">FOS\UserBundle\Validator\UniqueValidator</parameter>
     <parameter key="fos_user.security.interactive_login_listener.class">FOS\UserBundle\Security\InteractiveLoginListener</parameter>
@@ -780,6 +781,7 @@
         <parameter key="sonata.admin.block.admin_list">sonata.cache.noop</parameter>
       </parameter>
     </parameter>
+    <parameter key="ephemit_evenement.namer.class">Ephemit\EvenementBundle\Services\FileNamer</parameter>
     <parameter key="fos_js_routing.extractor.class">FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractor</parameter>
     <parameter key="fos_js_routing.controller.class">FOS\JsRoutingBundle\Controller\Controller</parameter>
     <parameter key="fos_js_routing.cache_control" type="collection">
@@ -894,6 +896,55 @@
     <parameter key="console.command.ids" type="collection"/>
   </parameters>
   <services>
+    <service id="extension.listener" class="Ephemit\EvenementBundle\Listener\DoctrineExtensionListener">
+      <tag name="kernel.event_listener" event="kernel.request" method="onLateKernelRequest" priority="-10"/>
+      <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
+      <call method="setContainer">
+        <argument type="service" id="service_container"/>
+      </call>
+    </service>
+    <service id="gedmo.listener.tree" class="Gedmo\Tree\TreeListener">
+      <tag name="doctrine.event_subscriber" connection="default"/>
+      <call method="setAnnotationReader">
+        <argument type="service" id="annotation_reader"/>
+      </call>
+    </service>
+    <service id="gedmo.listener.translatable" class="Gedmo\Translatable\TranslatableListener">
+      <tag name="doctrine.event_subscriber" connection="default"/>
+      <call method="setAnnotationReader">
+        <argument type="service" id="annotation_reader"/>
+      </call>
+      <call method="setDefaultLocale">
+        <argument>fr</argument>
+      </call>
+      <call method="setTranslationFallback">
+        <argument>false</argument>
+      </call>
+    </service>
+    <service id="gedmo.listener.timestampable" class="Gedmo\Timestampable\TimestampableListener">
+      <tag name="doctrine.event_subscriber" connection="default"/>
+      <call method="setAnnotationReader">
+        <argument type="service" id="annotation_reader"/>
+      </call>
+    </service>
+    <service id="gedmo.listener.sluggable" class="Gedmo\Sluggable\SluggableListener">
+      <tag name="doctrine.event_subscriber" connection="default"/>
+      <call method="setAnnotationReader">
+        <argument type="service" id="annotation_reader"/>
+      </call>
+    </service>
+    <service id="gedmo.listener.sortable" class="Gedmo\Sortable\SortableListener">
+      <tag name="doctrine.event_subscriber" connection="default"/>
+      <call method="setAnnotationReader">
+        <argument type="service" id="annotation_reader"/>
+      </call>
+    </service>
+    <service id="gedmo.listener.loggable" class="Gedmo\Loggable\LoggableListener">
+      <tag name="doctrine.event_subscriber" connection="default"/>
+      <call method="setAnnotationReader">
+        <argument type="service" id="annotation_reader"/>
+      </call>
+    </service>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
       <argument type="service" id="kernel"/>
@@ -2738,6 +2789,22 @@
       <argument type="service" id="debug.stopwatch"/>
       <argument type="service" id="monolog.logger.event" on-invalid="null"/>
       <call method="addListenerService">
+        <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument>extension.listener</argument>
+          <argument>onLateKernelRequest</argument>
+        </argument>
+        <argument>-10</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument>extension.listener</argument>
+          <argument>onKernelRequest</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListenerService">
         <argument>kernel.controller</argument>
         <argument type="collection">
           <argument>data_collector.router</argument>
@@ -3560,7 +3627,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>534d478d135d1</argument>
+            <argument>534da06de868f</argument>
           </service>
         </argument>
         <argument type="service">
@@ -3574,7 +3641,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>534d478d135d1</argument>
+            <argument>534da06de868f</argument>
           </service>
         </argument>
       </argument>
@@ -3913,7 +3980,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>534d478d135d1</argument>
+            <argument>534da06de868f</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
           </service>
         </argument>
@@ -4024,7 +4091,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>534d478d135d1</argument>
+            <argument>534da06de868f</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
           </service>
         </argument>
@@ -4431,6 +4498,24 @@
             </argument>
           </call>
           <call method="addEventSubscriber">
+            <argument type="service" id="gedmo.listener.sortable"/>
+          </call>
+          <call method="addEventSubscriber">
+            <argument type="service" id="gedmo.listener.translatable"/>
+          </call>
+          <call method="addEventSubscriber">
+            <argument type="service" id="gedmo.listener.tree"/>
+          </call>
+          <call method="addEventSubscriber">
+            <argument type="service" id="gedmo.listener.timestampable"/>
+          </call>
+          <call method="addEventSubscriber">
+            <argument type="service" id="gedmo.listener.loggable"/>
+          </call>
+          <call method="addEventSubscriber">
+            <argument type="service" id="gedmo.listener.sluggable"/>
+          </call>
+          <call method="addEventSubscriber">
             <argument type="service" id="sonata.easy_extends.doctrine.mapper"/>
           </call>
         </service>
@@ -4463,6 +4548,7 @@
         <service class="Doctrine\ORM\Configuration" public="false">
           <call method="setEntityNamespaces">
             <argument type="collection">
+              <argument key="Gedmo">Gedmo\Tree\Entity</argument>
               <argument key="EphemitUtilisateurBundle">Ephemit\UtilisateurBundle\Entity</argument>
               <argument key="FOSUserBundle">FOS\UserBundle\Entity</argument>
               <argument key="SonataUserBundle">Sonata\UserBundle\Entity</argument>
@@ -4504,6 +4590,54 @@
                     <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
                       <argument type="service" id="annotation_reader"/>
                       <argument type="collection">
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/src/Ephemit/UtilisateurBundle/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/src/Ephemit/EvenementBundle/Entity</argument>
+                      </argument>
+                    </service>
+                  </argument>
+                  <argument>Gedmo\Translatable\Entity</argument>
+                </call>
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
+                      <argument type="collection">
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/src/Ephemit/UtilisateurBundle/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/src/Ephemit/EvenementBundle/Entity</argument>
+                      </argument>
+                    </service>
+                  </argument>
+                  <argument>Gedmo\Loggable\Entity</argument>
+                </call>
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
+                      <argument type="collection">
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/src/Ephemit/UtilisateurBundle/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/src/Ephemit/EvenementBundle/Entity</argument>
+                      </argument>
+                    </service>
+                  </argument>
+                  <argument>Gedmo\Tree\Entity</argument>
+                </call>
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
+                      <argument type="collection">
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity</argument>
                         <argument>/var/www/INSSET/ephemit/src/Ephemit/UtilisateurBundle/Entity</argument>
                         <argument>/var/www/INSSET/ephemit/src/Ephemit/EvenementBundle/Entity</argument>
                       </argument>
@@ -4516,6 +4650,9 @@
                     <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
                       <argument type="service" id="annotation_reader"/>
                       <argument type="collection">
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity</argument>
+                        <argument>/var/www/INSSET/ephemit/vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity</argument>
                         <argument>/var/www/INSSET/ephemit/src/Ephemit/UtilisateurBundle/Entity</argument>
                         <argument>/var/www/INSSET/ephemit/src/Ephemit/EvenementBundle/Entity</argument>
                       </argument>
@@ -4624,6 +4761,7 @@
       <argument type="service" id="security.authentication.trust_resolver" on-invalid="null"/>
       <argument type="service" id="security.role_hierarchy" on-invalid="null"/>
     </service>
+    <service id="ephemit_evenement.file.namer" class="Ephemit\EvenementBundle\Services\FileNamer"/>
     <service id="fos_user.entity_manager" class="Doctrine\ORM\EntityManager" factory-method="getManager" factory-service="doctrine" public="false">
       <argument>null</argument>
     </service>
@@ -5832,6 +5970,11 @@
       <argument type="service" id="oneup_uploader.error_handler.uploadify"/>
       <argument type="collection">
         <argument key="frontend">uploadify</argument>
+        <argument key="max_size">10485760</argument>
+        <argument key="use_orphanage">false</argument>
+        <argument key="enable_progress">false</argument>
+        <argument key="enable_cancelation">false</argument>
+        <argument key="namer">ephemit_evenement.file.namer</argument>
         <argument key="custom_frontend" type="collection">
           <argument key="name">null</argument>
           <argument key="class">null</argument>
@@ -5847,11 +5990,6 @@
         <argument key="allowed_mimetypes" type="collection"/>
         <argument key="disallowed_mimetypes" type="collection"/>
         <argument key="error_handler">null</argument>
-        <argument key="max_size">9223372036854775807</argument>
-        <argument key="use_orphanage">false</argument>
-        <argument key="enable_progress">false</argument>
-        <argument key="enable_cancelation">false</argument>
-        <argument key="namer">oneup_uploader.namer.uniqid</argument>
       </argument>
       <argument>gallery</argument>
     </service>

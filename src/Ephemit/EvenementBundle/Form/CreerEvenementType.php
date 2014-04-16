@@ -56,7 +56,7 @@ class CreerEvenementType extends AbstractType
                 'attr'=>array('class'=>'public-choice'),
                 'data'=>'Oui'
             ))
-            ->add('documents', 'collection', array('type'=>new DocumentType(), 'allow_add'=>true, 'allow_delete'=>true, 'label'=>'Pieces jointes'))
+            ->add('documents', 'collection', array('type'=>new DocumentType(), 'allow_add'=>true, 'allow_delete'=>true, 'label'=>'Pieces jointes', 'required'=>false))
         ;
     }
 

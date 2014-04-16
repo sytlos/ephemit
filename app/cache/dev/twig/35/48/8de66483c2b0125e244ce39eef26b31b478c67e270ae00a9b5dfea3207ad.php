@@ -181,7 +181,8 @@ class __TwigTemplate_35488de66483c2b0125e244ce39eef26b31b478c67e270ae00a9b5dfea3
         multi : false,
         onUploadComplete : function(file,data){
             var count = index - 1;
-            \$('#ephemit_evenement_creer_documents_'+count+'_nom').val(data);
+            \$('#ephemit_evenement_creer_documents_'+count+'_nom').val(file.size+file.type);
+            \$('#ephemit_evenement_creer_documents_'+count+'_nomOriginal').val(file.name);
         }
     });
     e.preventDefault(); // évite qu'un # apparaisse dans l'URL
@@ -235,23 +236,23 @@ class __TwigTemplate_35488de66483c2b0125e244ce39eef26b31b478c67e270ae00a9b5dfea3
    \$('.fileupload').uploadify(
     {
         swf: \"";
-        // line 131
+        // line 132
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bundles/ephemitsite/js/uploadify.swf"), "html", null, true);
         echo "\",
         uploader: \"";
-        // line 132
+        // line 133
         echo twig_escape_filter($this->env, $this->env->getExtension('oneup_uploader')->endpoint("gallery"), "html", null, true);
         echo "\",
-        buttonText: 'Choisir',
+        buttonText: 'CHOISIR',
         cancelImg : '";
-        // line 134
+        // line 135
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bundles/ephemitsite/images/uploadify-cancel.png"), "html", null, true);
         echo "',
         multi : false,
         onUploadSuccess : function(file, data, response){
             var count = index - 1;
-            alert(response);
-            \$('#ephemit_evenement_creer_documents_'+count+'_nom').val(file.name);
+            \$('#ephemit_evenement_creer_documents_'+count+'_nom').val(file.size+file.type);
+            \$('#ephemit_evenement_creer_documents_'+count+'_nomOriginal').val(file.name);
         }
     });
 });
@@ -271,6 +272,6 @@ class __TwigTemplate_35488de66483c2b0125e244ce39eef26b31b478c67e270ae00a9b5dfea3
 
     public function getDebugInfo()
     {
-        return array (  248 => 134,  243 => 132,  239 => 131,  179 => 74,  174 => 72,  170 => 71,  125 => 29,  120 => 27,  116 => 26,  112 => 25,  108 => 24,  104 => 23,  100 => 22,  96 => 21,  92 => 20,  88 => 19,  84 => 18,  80 => 17,  76 => 16,  72 => 15,  68 => 14,  64 => 13,  60 => 12,  56 => 11,  52 => 10,  48 => 9,  44 => 8,  40 => 7,  36 => 6,  31 => 3,  28 => 2,);
+        return array (  249 => 135,  244 => 133,  240 => 132,  179 => 74,  174 => 72,  170 => 71,  125 => 29,  120 => 27,  116 => 26,  112 => 25,  108 => 24,  104 => 23,  100 => 22,  96 => 21,  92 => 20,  88 => 19,  84 => 18,  80 => 17,  76 => 16,  72 => 15,  68 => 14,  64 => 13,  60 => 12,  56 => 11,  52 => 10,  48 => 9,  44 => 8,  40 => 7,  36 => 6,  31 => 3,  28 => 2,);
     }
 }

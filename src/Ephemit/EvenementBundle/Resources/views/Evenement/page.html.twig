@@ -13,5 +13,17 @@
         <div>{{page.description}}</div>
         <div>{{page.lieu}}</div>
         <div>{{page.date}}</div>
+        
+        <div class="gridimg">
+            {% for img in arrayImg %}
+                <img src="{{asset('uploads/gallery/'~img.nom)}}" alt="{{img.nom}}" width=150 height=150>
+            {% endfor %}
+        </div>
+        
+        <div class="pj">
+            {% for pj in arrayPJ %}
+                <a href="#">{{pj.nomOriginal}}</a>
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}
